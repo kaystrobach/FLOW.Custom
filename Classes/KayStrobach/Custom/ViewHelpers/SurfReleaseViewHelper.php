@@ -32,9 +32,9 @@ class SurfReleaseViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHel
 					$link
 				);
 				if($date === FALSE) {
-					$output = 'Production Build Number: ' . $link;
+					$output = 'Build: ' . $link;
 				} else {
-					$output = 'Production build from: ' . $date->format($format);
+					$output = 'Build: ' . $date->format($format);
 					$revisionFilename = FLOW_PATH_ROOT . '../' . $link . 'REVISION';
 					if(is_file($revisionFilename)) {
 						$output .= ' / @Rev.: ' . file_get_contents($revisionFilename);
@@ -42,7 +42,7 @@ class SurfReleaseViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHel
 				}
 
 			} else {
-				return 'not deployed with TYPO3.Surf? Buildname: ' . $link;
+				return 'No TYPO3.Surf? Build: ' . $link;
 			}
 		} elseif($this->bootstrap->getContext()->isDevelopment()) {
 			$output = 'Development Context';
