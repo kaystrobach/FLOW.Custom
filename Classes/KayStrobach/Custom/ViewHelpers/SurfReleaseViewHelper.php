@@ -36,7 +36,7 @@ class SurfReleaseViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHel
 				return 'not deployed with TYPO3.Surf?';
 			}
 		} elseif($this->bootstrap->getContext()->isDevelopment()) {
-			$output = 'Development Contenxt';
+			$output = 'Development Context';
 		} else {
 			$output = $this->renderChildren();
 		}
