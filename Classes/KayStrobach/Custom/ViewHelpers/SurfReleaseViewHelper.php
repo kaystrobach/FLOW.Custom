@@ -8,7 +8,7 @@
 
 namespace KayStrobach\Custom\ViewHelpers;
 
-use TYPO3\FLOW\Annotations as Flow;
+use TYPO3\Flow\Annotations as Flow;
 
 class SurfReleaseViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper {
 	/**
@@ -18,6 +18,8 @@ class SurfReleaseViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHel
 	protected $bootstrap;
 
 	/**
+	 * Show release string based on symlink
+	 *
 	 * @param string $format
 	 * @return string
 	 */
