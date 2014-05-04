@@ -35,6 +35,10 @@ class SurfReleaseViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHel
 					$output = 'Production Build Number: ' . $link;
 				} else {
 					$output = 'Production build from: ' . $date->format($format);
+					$revisionFilename = FLOW_PATH_ROOT . '../' . $link . 'REVISION';
+					if(is_file($revisionFilename)) {
+						$output .= ' / @Rev.: ' . file_get_contents($revisionFilename);
+					}
 				}
 
 			} else {
