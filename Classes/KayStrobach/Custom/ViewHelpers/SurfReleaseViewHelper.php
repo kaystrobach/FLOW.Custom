@@ -25,13 +25,13 @@ class SurfReleaseViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHel
 	 */
 	public function render($format = 'd.m.Y H:i:s') {
 		if($this->bootstrap->getContext()->isProduction()) {
-			if(@is_link(FLOW_PATH_FLOW)) {
-				$link = readlink(FLOW_PATH_FLOW);
+			$link = basename(FLOW_PATH_FLOW);
+			if(((integer) $link !== 0) && (strlen($link) === 14)) {
 				$date = \DateTime::createFromFormat(
 					'Ymdhis',
-					substr($link, 3)
+					$link
 				);
-				$output = 'Production Context, with last build from: ' . $date->format($format);
+				$output = 'Production build from: ' . $date->format($format);
 			} else {
 				return 'not deployed with TYPO3.Surf?';
 			}
