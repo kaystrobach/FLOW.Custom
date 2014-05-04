@@ -35,12 +35,11 @@ class SurfReleaseViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHel
 					$output = 'Build: ' . $link;
 				} else {
 					$output = 'Build: ' . $date->format($format);
-					$revisionFilename = FLOW_PATH_ROOT . '../' . $link . 'REVISION';
-					if(is_file($revisionFilename)) {
-						$output .= ' / @Rev.: ' . file_get_contents($revisionFilename);
-					}
 				}
-
+				$revisionFilename = FLOW_PATH_ROOT . '../' . $link . 'REVISION';
+				if(is_file($revisionFilename)) {
+					$output .= ' / @Rev.: ' . file_get_contents($revisionFilename);
+				}
 			} else {
 				return 'No TYPO3.Surf? Build: ' . $link;
 			}
