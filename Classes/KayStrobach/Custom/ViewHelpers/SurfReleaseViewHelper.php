@@ -24,11 +24,11 @@ class SurfReleaseViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHel
 	 * @return string
 	 */
 	public function render($format = 'd.m.Y H:i:s') {
-		if($this->bootstrap->getContext()->isProduction() || 1) {
+		if($this->bootstrap->getContext()->isProduction()) {
 			$link = basename(FLOW_PATH_ROOT);
 			if(((integer) $link !== 0) && (strlen($link) === 14)) {
 				$date = \DateTime::createFromFormat(
-					'Ymdhis',
+					'YmdHis',
 					$link
 				);
 				if($date === FALSE) {
