@@ -26,8 +26,8 @@ class SurfContextViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractConditi
 	public function render($context = 'Development') {
 		$contextObject = $this->bootstrap->getContext();
 
-		if( (($contextObject->isProduction())  && ($context === 'Production'))  &&
-			(($contextObject->isDevelopment()) && ($context === 'Development')) &&
+		if( (($contextObject->isProduction())  && ($context === 'Production'))  ||
+			(($contextObject->isDevelopment()) && ($context === 'Development')) ||
 			(($contextObject->isTesting())     && ($context === 'Testing'))     ) {
 			return $this->renderThenChild();
 		} else {
