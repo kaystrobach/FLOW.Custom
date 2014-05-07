@@ -24,11 +24,11 @@ class SurfContextViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractConditi
 	 * @return string
 	 */
 	public function render($context = 'Development') {
-		$context = $this->bootstrap->getContext();
+		$contextObject = $this->bootstrap->getContext();
 
-		if( (($context->isProduction())  && ($context === 'Production'))  &&
-			(($context->isDevelopment()) && ($context === 'Development')) &&
-			(($context->isTesting())     && ($context === 'Testing'))     ) {
+		if( (($contextObject->isProduction())  && ($context === 'Production'))  &&
+			(($contextObject->isDevelopment()) && ($context === 'Development')) &&
+			(($contextObject->isTesting())     && ($context === 'Testing'))     ) {
 			return $this->renderThenChild();
 		} else {
 			return $this->renderElseChild();
