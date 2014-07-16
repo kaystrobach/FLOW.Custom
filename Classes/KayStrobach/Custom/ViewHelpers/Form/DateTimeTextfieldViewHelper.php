@@ -41,7 +41,7 @@ class DateTimeTextfieldViewHelper extends \TYPO3\Fluid\ViewHelpers\Form\Abstract
 		if(is_a($value, '\\DateTime')) {
 			$valueString = $value->format($this->arguments['dateFormat']);
 		} else {
-			throw new Exception('Expected \\DateTime object, but got ' . gettype($value) . ' for ' . $this->getName());
+			$valueString = '';
 		}
 
 		if ($value !== NULL) {
