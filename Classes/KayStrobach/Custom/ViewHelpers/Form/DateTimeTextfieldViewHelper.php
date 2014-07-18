@@ -36,12 +36,14 @@ class DateTimeTextfieldViewHelper extends \TYPO3\Fluid\ViewHelpers\Form\Abstract
 		$this->tag->addAttribute('type', $type);
 		$this->tag->addAttribute('name', $name . '[date]');
 
-		/** @var \DateTime $value */
+		/** @var \DateTime|mixed $value */
 		$value = $this->getValue(FALSE);
 		if(is_a($value, '\\DateTime')) {
 			$valueString = $value->format($this->arguments['dateFormat']);
+		} elseif(is_array($value) && array_key_exists('date', $value)) {
+			$valueString = $value['date'];
 		} else {
-			$valueString = $value;
+			$valueString = '';
 		}
 
 		if ($value !== NULL) {
