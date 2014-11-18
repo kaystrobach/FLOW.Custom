@@ -21,9 +21,10 @@ class GrabContentViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHel
 	 * @param string $uri
 	 * @param string $selector
 	 * @param bool $debug
+	 * @param int $lifetime
 	 * @return string
 	 */
-	public function render($uri, $selector, $debug = FALSE, $lifetime = 60) {
+	public function render($uri, $selector, $debug = FALSE, $lifetime = 3600) {
 		$cacheIdentifier = sha1($uri . $selector);
 		$buffer = $this->cache->get($cacheIdentifier);
 
