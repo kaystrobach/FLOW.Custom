@@ -4,6 +4,8 @@ namespace KayStrobach\Custom\Validation\Validator\File;
 use TYPO3\Flow\Resource\Resource;
 use TYPO3\Flow\Validation\Validator\AbstractValidator;
 use TYPO3\Flow\Utility\MediaTypes;
+use TYPO3\Flow\Annotations as Flow;
+
 
 /**
  * Class MimeTypeMatchesExtensionValidator
