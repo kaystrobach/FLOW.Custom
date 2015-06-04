@@ -3,29 +3,18 @@
 namespace KayStrobach\Custom\Validation\Validator\File;
 use TYPO3\Flow\Resource\Resource;
 use TYPO3\Flow\Validation\Validator\AbstractValidator;
-use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Flow\Utility\MediaTypes;
 
 /**
- * Class MimeTypeValidator
+ * Class MimeTypeMatchesExtensionValidator
  *
- * Checks wether a resources file is of a given mimetype (by content not extension)
- *  - allowedMimeTypes
- *
- * It is preconfigured for most common image formats
+ * Checks wether the file extensions mimetype matches the mimetype detected by the content
  *
  * The validator is named
- *  - KayStrobach.Custom:File\MimeType
+ *  - KayStrobach.Custom:File\MimeTypeMatchesExtension
  *
  */
-class MimeTypeValidator extends AbstractValidator {
-
-	/**
-	 * @var array
-	 */
-	protected $supportedOptions = array(
-		'allowedMimeTypes' => array(array('image/png', 'image/tiff', 'image/jpeg'), 'contains the allowed mimetypes', 'array'),
-	);
-
+class MimeTypeMatchesExtensionValidator extends AbstractValidator {
 	/**
 	 * @Flow\Inject
 	 * @var \KayStrobach\Custom\Utility\MediaTypeUtility
@@ -47,16 +36,18 @@ class MimeTypeValidator extends AbstractValidator {
 		}
 
 		$fileMimeType = $this->mediaTypeUtility->getMediaTypeFromResource($value);
+		$fileExtensionMimetype = MediaTypes::getMediaTypeFromFilename('x.' . $value->getFileExtension());
 
-		if(!in_array($fileMimeType, $this->options['allowedMimeTypes'])) {
+		if($fileMimeType !== $fileExtensionMimetype) {
 			$this->addError(
-				'The given asset was not of type %1$s but is of type %2$s',
+				'The given file has extension %1$s and should be of type %2$s, but is of type %3$s',
 				1433343575,
 				array(
-					implode(', ', $this->options['allowedMimeTypes']),
+					$value->getFileExtension(),
+					$fileExtensionMimetype,
 					$fileMimeType
 				)
-		);
+			);
 		}
 
 	}
