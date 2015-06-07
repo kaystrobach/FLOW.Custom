@@ -10,6 +10,23 @@ use TYPO3\Flow\Reflection\ObjectAccess;
 
 class SortViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper {
 	/**
+	 *
+	 * Wrap the results to be sorted by
+	 * <code>
+	 *   <custom:sort objects="{objects}" as="sortedObjects" order="DESC">
+	 *     // use something like the follow,ing VH
+	 *     <f:for each ...>
+	 *     </f:for>
+	 *   </custom:sort>
+	 * </code>
+	 *
+	 * to change the sorting you can easily use a f:link.action VH
+	 * <code>
+	 *   <f:link.action action=" ... " addQueryString="TRUE" additionalParams="{sortBy:'field', order:'order'}">
+	 *     some nice text
+	 *   </f:link>
+	 * </code>
+	 *
 	 * @param QueryResultInterface $objects
 	 * @param $as
 	 * @throws \TYPO3\Fluid\Core\ViewHelper\Exception\InvalidVariableException
