@@ -4,6 +4,7 @@
 namespace KayStrobach\Custom\ViewHelpers;
 
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Flow\Http\Request;
 use TYPO3\Flow\Persistence\QueryInterface;
 use TYPO3\Flow\Persistence\QueryResultInterface;
 use TYPO3\Flow\Reflection\ObjectAccess;
@@ -28,32 +29,41 @@ class SortViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper {
 	 * </code>
 	 *
 	 * @param QueryResultInterface $objects
-	 * @param $as
-	 * @throws \TYPO3\Fluid\Core\ViewHelper\Exception\InvalidVariableException
+	 * @param string $as              alias in the fluid code
+	 * @param string $sortBy          default sortby field
+	 * @param string $order           default sortby order
+	 * @param string $queryPartSortBy get param name to specify field for order
+	 * @param string $queryPartOrder  get param name to specify direction
 	 * @return string
+	 * @throws \TYPO3\Fluid\Core\ViewHelper\Exception\InvalidVariableException
 	 */
-	public function render($objects, $as, $sortBy, $order) {
-		$this->controllerContext->getArguments()->getArgument('sortBy');
-		$this->controllerContext->getArguments()->getArgument('order');
+	public function render($objects, $as, $sortBy, $order, $queryPartSortBy = 'sortBy', $queryPartOrder = 'order') {
+		$request = Request::createFromEnvironment();
+		$sortBy = $request->getArgument($queryPartSortBy) ? $request->getArgument($queryPartSortBy) : $sortBy;
+		$order = $request->getArgument($queryPartOrder) ? $request->getArgument($queryPartOrder) : $order;
+
+		$result = $objects;
 
 		if($objects instanceof QueryResultInterface) {
-			$result = $this->sortObjects($objects, $as, $order);
+			$result = $this->sortObjects($objects, $sortBy, $order);
 		} elseif(is_array($objects)) {
-			$result = $this->sortArrays($objects, $as, $order);
+			$result = $this->sortArrays($objects, $sortBy, $order);
 		}
 
-		$this->viewHelperVariableContainer->add(__CLASS__, $as, $result);
+		$this->templateVariableContainer->add($as, $result);
 		$buffer = $this->renderChildren();
-		$this->viewHelperVariableContainer->remove(__CLASS__, $as);
+		$this->templateVariableContainer->remove($as);
 		return $buffer;
 	}
 
 	protected function sortObjects(QueryResultInterface $objects, $sortBy, $order) {
-		return $objects->getQuery()->setOrderings(
+		$query = $objects->getQuery();
+		$query->setOrderings(
 			array(
 				$sortBy => $order === 'DESC' ? QueryInterface::ORDER_DESCENDING : QueryInterface::ORDER_ASCENDING
 			)
-		)->execute();
+		);
+		return $query->execute();
 	}
 
 	protected function sortArrays($objects, $sortBy, $order) {
