@@ -8,14 +8,16 @@
 
 namespace KayStrobach\Custom\ViewHelpers;
 
+use KayStrobach\Custom\Utility\GrabUtility;
 use TYPO3\Flow\Annotations as Flow;
 
 class GrabContentViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper {
+
 	/**
-	 * @var \TYPO3\Flow\Cache\Frontend\StringFrontend
 	 * @Flow\Inject
+	 * @var \KayStrobach\Custom\Utility\GrabUtility
 	 */
-	protected $cache;
+	protected $grabUtility;
 
 	/**
 	 * @param string $uri
@@ -25,20 +27,6 @@ class GrabContentViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHel
 	 * @return string
 	 */
 	public function render($uri, $selector, $debug = FALSE, $lifetime = 3600) {
-		$cacheIdentifier = sha1($uri . $selector);
-		$buffer = $this->cache->get($cacheIdentifier);
-
-		if($buffer === FALSE) {
-			libxml_use_internal_errors(TRUE);
-			$domDocument = new \DOMDocument();
-			$domDocument->loadHTMLFile($uri, LIBXML_NOERROR|LIBXML_NOWARNING);
-			$node = $domDocument->getElementById($selector);
-			$buffer = $domDocument->saveHTML($node);
-			libxml_clear_errors();
-			libxml_use_internal_errors(FALSE);
-			$this->cache->set($cacheIdentifier, $buffer, array(sha1($uri)), $lifetime);
-		}
-
-		return $buffer;
+		return $this->grabUtility->getContent($uri, $selector, $debug, $lifetime);
 	}
 } 
