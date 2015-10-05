@@ -54,6 +54,9 @@ class DateTimeTextfieldViewHelper extends \TYPO3\Fluid\ViewHelpers\Form\Abstract
 			$this->tag->addAttribute('required', 'required');
 		}
 
+		$this->tag->addAttribute('data-field-render', 'datepicker');
+		$this->tag->addAttribute('data-format', $this->arguments['dateFormat']);
+
 		$this->setErrorClassAttribute();
 
 		return $this->tag->render() . '<input type="hidden" value="' . htmlspecialchars($this->arguments['dateFormat']) . '" name="' . $this->getName() . '[dateFormat]" />';
