@@ -1,14 +1,15 @@
 {
-	"name":"kaystrobach/custom",
-	"type":"typo3-flow-package",
-	"description":null,
-	"version":null,
-	"require":{
-		"typo3/flow":"*"
-	},
-	"autoload":{
-		"psr-0":{
-			"KayStrobach\\Custom":"Classes"
-		}
-	}
+  "name":"kaystrobach/custom",
+  "type":"typo3-flow-package",
+  "description":null,
+  "version":null,
+  "require":{
+    "typo3/flow":"*",
+    "ezyang/htmlpurifier": "^4.7"
+  },
+  "autoload":{
+      "psr-0":{
+          "KayStrobach\\Custom":"Classes"
+      }
+  }
 }
