@@ -2,4 +2,4 @@ TYPO3:
   Flow:
     object:
       excludeClasses:
-        'ezyang/htmlpurifier': ['.*']
+        'ezyang.htmlpurifier' : ['.*']
