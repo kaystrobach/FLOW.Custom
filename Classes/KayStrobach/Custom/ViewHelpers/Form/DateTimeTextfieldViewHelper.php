@@ -4,8 +4,16 @@
 namespace KayStrobach\Custom\ViewHelpers\Form;
 
 use TYPO3\Fluid\Core\ViewHelper\Exception;
+use KayStrobach\Custom\Utility\DateStringToMaskUtility;
+use TYPO3\Flow\Annotations as Flow;
 
 class DateTimeTextfieldViewHelper extends \TYPO3\Fluid\ViewHelpers\Form\AbstractFormFieldViewHelper {
+
+	/**
+	 * @Flow\Inject
+	 * @var DateStringToMaskUtility
+	 */
+	protected $dateStringUtility;
 	/**
 	 * @var string
 	 */
@@ -57,8 +65,11 @@ class DateTimeTextfieldViewHelper extends \TYPO3\Fluid\ViewHelpers\Form\Abstract
 		$this->tag->addAttribute('data-field-render', 'datepicker');
 		$this->tag->addAttribute('data-format', $this->arguments['dateFormat']);
 
+		$this->tag->addAttribute('data-mask', $this->dateStringUtility->convert($this->arguments['dateFormat']));
+
 		$this->setErrorClassAttribute();
 
 		return $this->tag->render() . '<input type="hidden" value="' . htmlspecialchars($this->arguments['dateFormat']) . '" name="' . $this->getName() . '[dateFormat]" />';
 	}
+
 }
