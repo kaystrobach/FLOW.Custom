@@ -64,6 +64,7 @@ class DateTimeTextfieldViewHelper extends \TYPO3\Fluid\ViewHelpers\Form\Abstract
 
 		$this->tag->addAttribute('data-field-render', 'datepicker');
 		$this->tag->addAttribute('data-format', $this->arguments['dateFormat']);
+		$this->tag->addAttribute('data-date-format', $this->arguments['dateFormat']);
 
 		$this->tag->addAttribute('data-mask', $this->dateStringUtility->convert($this->arguments['dateFormat']));
 

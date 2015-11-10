@@ -17,14 +17,15 @@ class IncludeJsCssViewHelper extends AbstractViewHelper
     protected $resourcePublisher;
 
     /**
-     * @param bool|true $jasny
+     * @param bool|true $datetime
      * @return string
      */
-    public function render($jasny = TRUE) {
+    public function render($datetime = TRUE) {
         $buffer = '';
-        if($jasny) {
-            $buffer .= $this->getLinkTag('Jasny/css/jasny-bootstrap.css');
-            $buffer .= $this->getScriptTag('Jasny/js/jasny-bootstrap.min.js');
+        if($datetime) {
+            $buffer .= $this->getLinkTag('datetimepicker/jquery.datetimepicker.css');
+            $buffer .= $this->getScriptTag('datetimepicker/build/jquery.datetimepicker.full.js');
+            $buffer .= $this->getScriptTag('datetimepicker.js');
         }
         return $buffer;
     }
