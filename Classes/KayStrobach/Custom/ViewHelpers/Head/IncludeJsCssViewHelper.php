@@ -24,7 +24,7 @@ class IncludeJsCssViewHelper extends AbstractViewHelper
         $buffer = '';
         if($datetime) {
             $buffer .= $this->getLinkTag('datetimepicker/jquery.datetimepicker.css');
-            $buffer .= $this->getScriptTag('datetimepicker/build/jquery.datetimepicker.full.js');
+            $buffer .= $this->getScriptTag('datetimepicker/build/jquery.datetimepicker.full.min.js');
             $buffer .= $this->getScriptTag('datetimepicker.js');
         }
         return $buffer;
