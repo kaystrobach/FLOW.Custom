@@ -20,6 +20,12 @@ class DateTimeTextfieldViewHelper extends \TYPO3\Fluid\ViewHelpers\Form\Abstract
 	protected $tagName = 'input';
 
 	/**
+	 * @Flow\Inject()
+	 * @var \TYPO3\Flow\I18n\Service
+	 */
+	protected $localizationService;
+
+	/**
 	 * Initialize the arguments.
 	 *
 	 * @return void
@@ -37,7 +43,13 @@ class DateTimeTextfieldViewHelper extends \TYPO3\Fluid\ViewHelpers\Form\Abstract
 		$this->registerUniversalTagAttributes();
 	}
 
-	public function render($required = NULL, $type = 'text') {
+	/**
+	 * @param boolean $required
+	 * @param string $type
+	 * @param string $locale
+	 * @return string
+	 */
+	public function render($required = NULL, $type = 'text', $locale = NULL) {
 		$name = $this->getName();
 		$this->registerFieldNameForFormTokenGeneration($name);
 
@@ -67,6 +79,14 @@ class DateTimeTextfieldViewHelper extends \TYPO3\Fluid\ViewHelpers\Form\Abstract
 		$this->tag->addAttribute('data-date-format', $this->arguments['dateFormat']);
 
 		$this->tag->addAttribute('data-mask', $this->dateStringUtility->convert($this->arguments['dateFormat']));
+
+		if($locale === NULL) {
+			$locale = $this->localizationService->getConfiguration()->getCurrentLocale();
+			$this->tag->addAttribute('data-date-locale', $locale->getLanguage());
+		} else {
+			$this->tag->addAttribute('data-date-locale', $locale);
+		}
+
 
 		$this->setErrorClassAttribute();
 

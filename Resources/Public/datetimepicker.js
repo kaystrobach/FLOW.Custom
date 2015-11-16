@@ -5,6 +5,7 @@ $( document ).ready(
             jQuery('[data-date-format]'),
             function(index, value) {
                 var format = $(value).attr('data-date-format');
+                var locale = $(value).attr('data-date-locale');
                 var enableDatePicker = true;
                 var enableTimePicker = true;
 
@@ -16,7 +17,16 @@ $( document ).ready(
                     enableDatePicker = false;
                 }
 
+                if(!locale) {
+                    locale = 'en';
+                }
+
+                jQuery.datetimepicker.setLocale(locale);
+
                 jQuery(value).datetimepicker({
+                    dayOfWeekStart: 1,
+                    weeks: true,
+                    lang: locale,
                     datepicker: enableDatePicker,
                     timepicker: enableTimePicker,
                     format: format,

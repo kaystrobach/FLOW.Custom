@@ -31,11 +31,13 @@ class IncludeJsCssViewHelper extends AbstractViewHelper
     }
 
     public function getLinkTag($path) {
-        return '<link rel="stylesheet" href="' . htmlspecialchars($this->resourcePublisher->getStaticResourcesWebBaseUri() . 'Packages/KayStrobach.Custom/' . $path) . '">' . PHP_EOL;
+        $timestamp = sha1(file_get_contents('resource://KayStrobach.Custom/Public/' . $path));
+        return '<link rel="stylesheet" href="' . htmlspecialchars($this->resourcePublisher->getStaticResourcesWebBaseUri() . 'Packages/KayStrobach.Custom/' . $path) . '?' . $timestamp . '">' . PHP_EOL;
     }
 
     public function getScriptTag($path) {
-        return '<script type="text/javascript" src="' . htmlspecialchars($this->resourcePublisher->getStaticResourcesWebBaseUri() . 'Packages/KayStrobach.Custom/' . $path) . '"></script>' . PHP_EOL;
+        $timestamp = sha1(file_get_contents('resource://KayStrobach.Custom/Public/' . $path));
+        return '<script type="text/javascript" src="' . htmlspecialchars($this->resourcePublisher->getStaticResourcesWebBaseUri() . 'Packages/KayStrobach.Custom/' . $path) . '?' . $timestamp . '"></script>' . PHP_EOL;
     }
 
 }
