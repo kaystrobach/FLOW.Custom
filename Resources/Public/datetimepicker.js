@@ -33,7 +33,10 @@ $( document ).ready(
                     mask:true,
                     todayButton: true,
                     defaultSelect: true,
-                    allowBlank: true
+                    allowBlank: true,
+                    scrollMonth: false,
+                    scrollInput: false,
+                    step: 10
                 });
             }
         );
