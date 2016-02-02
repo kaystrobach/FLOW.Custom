@@ -18,6 +18,17 @@ class GrabContentViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHel
 	 * @var \KayStrobach\Custom\Utility\GrabUtility
 	 */
 	protected $grabUtility;
+	
+	/**
+	 * Specifies whether the escaping interceptors should be disabled or enabled for the result of renderChildren() calls within this ViewHelper
+	 * @see isChildrenEscapingEnabled()
+	 *
+	 * Note: If this is NULL the value of $this->escapingInterceptorEnabled is considered for backwards compatibility
+	 *
+	 * @var boolean
+	 * @api
+	 */
+	protected $escapeChildren = false;
 
 	/**
 	 * @param string $uri
