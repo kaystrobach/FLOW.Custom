@@ -1,0 +1,74 @@
+<script type="text/javascript">
+    $(document).on(
+            'ready',
+            function() {
+                $('form.jsend').on(
+                        'submit',
+                        function(event) {
+                            var form = $(this);
+                            var defaultSettings = {
+                                reload: 0,
+                                locationOnSuccess: false,
+                                errorParentClass: 'has-error',
+                                errorElementClass: 'f3-form-error',
+                                errorFeedbackClass: 'help-block'
+                            }
+                            var settings = {
+                                reload: $(form).attr('data-reload-on-success'),
+                                locationOnSuccess: $(form).attr('data-location-on-success'),
+                                errorParentClass: $(form).attr('data-error-parent-class'),
+                                errorElementClass: $(form).attr('data-error-element-class'),
+                                errorFeedbackClass: $(form).attr('data-error-feedback-class')
+                            };
+                            settings = $.extend({}, defaultSettings, settings);
+
+                            $(form).find('.' + settings.errorElementClass).removeClass(settings.errorElementClass);
+                            $(form).find('.' + settings.errorParentClass).removeClass(settings.errorParentClass);
+                            $(form).find('.' + settings.errorFeedbackClass).remove();
+                            $.post(
+                                    form.attr('action'),
+                                    form.serialize()
+                            ).done(
+                                    function(data) {
+                                        if(data.status == 'success') {
+                                            if(settings.reload) {
+                                                window.location.href = window.location.href;
+                                            }
+                                            if(settings.locationOnSuccess) {
+                                                window.location.href = settings.locationOnSuccess;
+                                            }
+                                        } else {
+                                            $.each(
+                                                    data.data.formErrors,
+                                                    function(index, value) {
+                                                        var nameFieldValue = index;
+                                                        $(form).find('[name="' + nameFieldValue +'"]')
+                                                                .addClass(settings.errorElementClass)
+                                                                .attr('data-validation-error', value[0].message)
+                                                                .attr('data-validation-error-code', value[0].code)
+                                                        ;
+                                                        $(form).find('[name="' + nameFieldValue +'"]')
+                                                                .closest('.form-group')
+                                                                .addClass(settings.errorParentClass);
+                                                        console.log($(form).find('[name="' + nameFieldValue +'"]')
+                                                                .parentsUntil('.form-group'));
+                                                        $.each(
+                                                                value,
+                                                                function(index, value) {
+                                                                    $(form).find('[name="' + nameFieldValue +'"]')
+                                                                        .after('<span class="' + settings.errorFeedbackClass + '">' + value.renderedMessageLocalized + '</span>');
+                                                                }
+                                                        )
+
+                                                        ;
+                                                    }
+                                            );
+                                        }
+                                    }
+                            )
+                            event.preventDefault();
+                        }
+                );
+            }
+    );
+</script>
