@@ -132,7 +132,11 @@ class JsendView extends JsonView implements ViewInterface
             if ($pos !== false) {
                 $fieldName = substr_replace($fieldName, '[', $pos, strlen('.'));
             }
-            $fieldName = str_replace('.', '][', $fieldName) . ']';
+            $fieldName = str_replace('.', '][', $fieldName);
+
+            if(strpos($fieldName, '[')) {
+                $fieldName = $fieldName . ']';
+            }
             $errorsToReturn[$fieldName] = $this->convertMessagesToArray($errors);
         }
         return $errorsToReturn;
