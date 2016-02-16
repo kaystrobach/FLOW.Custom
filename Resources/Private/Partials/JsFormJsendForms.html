@@ -31,10 +31,11 @@
                             ).done(
                                     function(data) {
                                         if(data.status == 'success') {
-                                            if(settings.reload) {
+                                            if(data.data.redirectTo) {
+                                                window.location.href = data.data.redirectTo;
+                                            } else if(settings.reload) {
                                                 window.location.href = window.location.href;
-                                            }
-                                            if(settings.locationOnSuccess) {
+                                            } else if(settings.locationOnSuccess) {
                                                 window.location.href = settings.locationOnSuccess;
                                             }
                                         } else {

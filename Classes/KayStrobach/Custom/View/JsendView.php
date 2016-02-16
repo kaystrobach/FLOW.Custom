@@ -34,12 +34,19 @@ class JsendView extends JsonView implements ViewInterface
         }
         $configuration = $this->configuration;
 
-        $valueToRender['flashMessages'] = $this->getFlashMessages();
         $valueToRender['formErrors'] = $this->getFormErrors();
 
         if(isset($valueToRender['status'])) {
             $this->requestStatus = $valueToRender['status'];
             unset($valueToRender['status']);
+        }
+
+        if(isset($this->variables['redirectTo'])) {
+            $valueToRender['redirectTo'] = $this->variables['redirectTo'];
+        }
+
+        if(!$valueToRender['redirectTo']) {
+            $valueToRender['flashMessages'] = $this->getFlashMessages();
         }
 
         return array(
