@@ -43,20 +43,23 @@
                                                     data.data.formErrors,
                                                     function(index, value) {
                                                         var nameFieldValue = index;
-                                                        $(form).find('[name="' + nameFieldValue +'"]')
+                                                        var field = $(form).find("[name='" + nameFieldValue + "'].form-control");
+                                                        if(field.length < 1) {
+                                                            nameFieldValue = nameFieldValue + '[]';
+                                                        }
+                                                        console.log(field);
+                                                        $(form).find("[name='" + nameFieldValue + "'].form-control")
                                                                 .addClass(settings.errorElementClass)
                                                                 .attr('data-validation-error', value[0].message)
                                                                 .attr('data-validation-error-code', value[0].code)
                                                         ;
-                                                        $(form).find('[name="' + nameFieldValue +'"]')
+                                                        $(form).find("[name='" + nameFieldValue + "'].form-control")
                                                                 .closest('.form-group')
                                                                 .addClass(settings.errorParentClass);
-                                                        console.log($(form).find('[name="' + nameFieldValue +'"]')
-                                                                .parentsUntil('.form-group'));
                                                         $.each(
                                                                 value,
                                                                 function(index, value) {
-                                                                    $(form).find('[name="' + nameFieldValue +'"]')
+                                                                    $(form).find('[name="' + nameFieldValue +'"].form-control')
                                                                         .after('<span class="' + settings.errorFeedbackClass + '">' + value.renderedMessageLocalized + '</span>');
                                                                 }
                                                         )
