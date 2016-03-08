@@ -33,6 +33,7 @@ class PurifyHtmlViewHelper extends AbstractViewHelper
     public function render($value = NULL) {
         \HTMLPurifier_Bootstrap::registerAutoload();
         $config = \HTMLPurifier_Config::createDefault();
+        $config->set('URI.AllowedSchemes', array('data' => true));
         $purifier = \HTMLPurifier::getInstance($config);
 
         if($value === NULL) {
