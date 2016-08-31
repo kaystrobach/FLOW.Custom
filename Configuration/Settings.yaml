@@ -3,3 +3,8 @@ TYPO3:
     object:
       excludeClasses:
         'ezyang.htmlpurifier' : ['.*']
+KayStrobach:
+  Custom:
+    MailUtility:
+      from:     "info@example.com"
+      reply-to: "no-reply@local.com"

@@ -42,6 +42,7 @@ class MailUtility
     protected $configurationManager;
 
     /**
+     * @Flow\InjectConfiguration(package="KayStrobach.Custom", path="MailUtility")
      * @var array
      */
     protected $settings = array();
@@ -115,13 +116,5 @@ class MailUtility
             ]
         );
         $mail->send();
-    }
-
-    protected function initConfiguration()
-    {
-        $this->settings = $this->configurationManager->getConfiguration(
-            \TYPO3\FLOW\Configuration\ConfigurationManager::CONFIGURATION_TYPE_SETTINGS,
-            'KayStrobach.Custom.MailUtility'
-        );
     }
 }
