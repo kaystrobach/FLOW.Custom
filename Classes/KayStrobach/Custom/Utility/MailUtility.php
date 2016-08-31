@@ -80,8 +80,6 @@ class MailUtility
      */
     public function send($recipientMail, $templateFilePath, $values = array(), $replyTo = null)
     {
-        $this->initConfiguration();
-
         /** @var $mail \TYPO3\SwiftMailer\Message() */
         $this->view->setTemplatePathAndFilename($templateFilePath);
         $this->view->assignMultiple($values);
