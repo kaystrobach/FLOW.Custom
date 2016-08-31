@@ -53,6 +53,12 @@ class MailUtility
     protected $resourceManager;
 
     /**
+     * @Flow\Inject
+     * @var \TYPO3\Flow\Log\SystemLoggerInterface
+     */
+    protected $logger;
+
+    /**
      * Hier wird die Mail an das Sendesystem übergeben.
      *
      * Das Template sollte wie folgt aussehen:
@@ -96,6 +102,18 @@ class MailUtility
         if ($renderedMailContentText !== '') {
             $mail->addPart($renderedMailContentText, 'text/plain', 'utf-8');
         }
+        $this->logger->log(
+            'Send Message with MailUtility',
+            LOG_DEBUG,
+            [
+                'from' => $this->settings['from'],
+                'recipient' => $recipientMail,
+                'templateFile' => $templateFilePath,
+                'values' => $values,
+                'replyTo' => $replyTo ? $replyTo : $this->settings['reply-to']
+
+            ]
+        );
         $mail->send();
     }
 
