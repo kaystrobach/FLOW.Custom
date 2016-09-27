@@ -93,7 +93,7 @@ class MailUtility
             ->setFrom($this->settings['from'])
             ->setReplyTo($replyTo ? $replyTo : $this->settings['reply-to'])
             ->setTo($recipientMail)
-            ->setSubject($renderedMailSubject)
+            ->setSubject(trim(htmlspecialchars_decode($renderedMailSubject)))
             ->setPriority(1);
         if ($renderedMailContentHtml !== '') {
             $mail->addPart($renderedMailContentHtml, 'text/html', 'utf-8');
