@@ -11,6 +11,15 @@ use TYPO3\Flow\Annotations as Flow;
 class IncludeJsCssViewHelper extends AbstractViewHelper
 {
     /**
+     * Specifies whether the escaping interceptors should be disabled or enabled for the render-result of this ViewHelper
+     * @see isOutputEscapingEnabled()
+     *
+     * @var boolean
+     * @api
+     */
+    protected $escapeOutput = false;
+
+    /**
      * @Flow\Inject
      * @var ResourcePublisher
      */
