@@ -40,7 +40,12 @@ class NumberTextfieldViewHelper extends TextfieldViewHelper
 
         $value = $this->getValueAttribute();
         if ($value !== null) {
-            $this->tag->addAttribute('value', $value);
+            if (is_numeric($value)) {
+                $this->tag->addAttribute('value', $value);
+            } elseif (is_array($value) && isset($value['value'])) {
+                $this->tag->addAttribute('value', $value['value']);
+            }
+
         }
 
         if ($required === true) {
