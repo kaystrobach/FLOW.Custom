@@ -32,10 +32,19 @@ class DateStringToMaskUtility
      * @param string $string
      * @return string
      */
-    public function convert($string) {
+    public function convert($string)
+    {
         foreach($this->map as $key => $item) {
             $string = str_replace($key, $item, $string);
         }
+        return $string;
+    }
+
+    public function convertToUnderscores($string)
+    {
+        $string = $this->convert($string);
+        $string = str_replace('9', '_', $string);
+        $string = str_replace('w', '_', $string);
         return $string;
     }
 }

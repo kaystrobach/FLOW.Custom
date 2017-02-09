@@ -90,7 +90,12 @@ class DateTimeTextfieldViewHelper extends \TYPO3\Fluid\ViewHelpers\Form\Abstract
 
 		$this->setErrorClassAttribute();
 
-		return $this->tag->render() . '<input type="hidden" value="' . htmlspecialchars($this->arguments['dateFormat']) . '" name="' . $this->getName() . '[dateFormat]" />';
+		return $this->tag->render() . $this->renderHiddenFields();
 	}
 
+	protected function renderHiddenFields()
+    {
+        return '<input type="hidden" value="' . htmlspecialchars($this->arguments['dateFormat']) . '" name="' . $this->getName() . '[dateFormat]" />'
+            . '<input type="hidden" value="' . htmlspecialchars($this->dateStringUtility->convertToUnderscores($this->arguments['dateFormat'])) . '" name="' . $this->getName() . '[dateMask]" />';
+    }
 }
