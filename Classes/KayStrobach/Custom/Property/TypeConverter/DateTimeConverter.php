@@ -39,13 +39,12 @@ class DateTimeConverter extends AbstractTypeConverter
     public function canConvertFrom($source, $targetType)
     {
         if (is_array($source)) {
-            if (!(isset($source['dateFormat']) && $source['dateFormat'] !== '')) {
-                return false;
+            if ((isset($source['dateFormat']) && $source['dateFormat'] !== '')) {
+                if ($source['dateFormat'] === $source['date']) {
+                    return true;
+                }
             }
-            if ($source['dateFormat'] === $source['date']) {
-                return true;
-            }
-            return true;
+            return false;
         }
     }
 
