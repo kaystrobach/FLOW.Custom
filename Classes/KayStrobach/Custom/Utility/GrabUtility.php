@@ -63,7 +63,7 @@ class GrabUtility {
 			$this->baseUri = $baseTag->getAttribute('href');
 			return;
 		}
-		if(substr($uri, -1, 1) !== '/') {
+		if(substr($uri, 0, 1) !== '/') {
 			$this->baseUri = dirname($uri);
 		}
 	}
@@ -88,7 +88,10 @@ class GrabUtility {
 			if (substr($uri, 0, 1) !== '/') {
 				$uri = $this->baseUri . $uri;
 			} else {
-				$uri = parse_url($this->baseUri, PHP_URL_SCHEME) . '://' . parse_url($this->baseUri, PHP_URL_HOST) . '/' . $uri;
+			    if (substr($uri, 0, 1) !== '/') {
+			        $uri = '/' . $uri;
+                }
+				$uri = parse_url($this->baseUri, PHP_URL_SCHEME) . '://' . parse_url($this->baseUri, PHP_URL_HOST) . $uri;
 			}
 			$element->setAttribute($attributeName, $uri);
 		}
