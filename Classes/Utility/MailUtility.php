@@ -30,7 +30,7 @@ class MailUtility
 
     /**
      * @Flow\Inject
-     * @var \TYPO3\SwiftMailer\TransportFactory
+     * @var \Neos\SwiftMailer\TransportFactory
      * @api
      */
     protected $mailerTransportFactory = null;
@@ -80,7 +80,7 @@ class MailUtility
      */
     public function send($recipientMail, $templateFilePath, $values = array(), $replyTo = null)
     {
-        /** @var $mail \TYPO3\SwiftMailer\Message() */
+        /** @var $mail \Neos\SwiftMailer\Message() */
         $this->view->setTemplatePathAndFilename($templateFilePath);
         $this->view->assignMultiple($values);
 
@@ -88,7 +88,7 @@ class MailUtility
         $renderedMailContentText = trim($this->view->renderSection('text', null, true));
         $renderedMailContentHtml = trim($this->view->renderSection('html', null, true));
 
-        $mail = new \TYPO3\SwiftMailer\Message();
+        $mail = new \Neos\SwiftMailer\Message();
         $mail
             ->setFrom($this->settings['from'])
             ->setReplyTo($replyTo ? $replyTo : $this->settings['reply-to'])
