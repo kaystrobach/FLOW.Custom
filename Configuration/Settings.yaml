@@ -1,10 +1,12 @@
-TYPO3:
-  Flow:
-    object:
-      excludeClasses:
-        'ezyang.htmlpurifier' : ['.*']
+
 KayStrobach:
   Custom:
     MailUtility:
-      from:     "info@example.com"
-      reply-to: "no-reply@local.com"
+      from: info@example.com
+      reply-to: no-reply@local.com
+Neos:
+  Flow:
+    object:
+      excludeClasses:
+        ezyang.htmlpurifier:
+          - '.*'
