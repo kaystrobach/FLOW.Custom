@@ -30,7 +30,7 @@ class ResourceViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Uri\ResourceView
 	 * @throws \Neos\FluidAdaptor\Core\ViewHelper\Exception\InvalidVariableException
 	 * @return string The absolute URI to the resource
 	 */
-	public function render($path = NULL, $package = NULL, Resource $resource = NULL, $localize = TRUE, $addVersion = TRUE) {
+	public function render($path = NULL, $package = NULL, PersistentResource $resource = NULL, $localize = TRUE, $addVersion = TRUE) {
 		$uri = parent::render($path, $package, $resource, $localize);
 		if ($addVersion === TRUE && $resource === NULL) {
 			if ($package === NULL) {
