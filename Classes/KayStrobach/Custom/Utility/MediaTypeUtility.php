@@ -4,6 +4,7 @@ namespace KayStrobach\Custom\Utility;
 use TYPO3\Flow\Resource\ResourceManager;
 use TYPO3\Flow\Utility\MediaTypes;
 use TYPO3\Flow\Resource\Exception as ResourceException;
+use TYPO3\Flow\Annotations as Flow;
 
 class MediaTypeUtility {
 
