@@ -18,7 +18,7 @@ use TYPO3\Flow\Annotations as Flow;
  */
 class MimeTypeMatchesExtensionValidator extends AbstractValidator {
 	/**
-	 * @Flow\Inject
+	 * @Flow\Inject()
 	 * @var \KayStrobach\Custom\Utility\MediaTypeUtility
 	 */
 	protected $mediaTypeUtility;

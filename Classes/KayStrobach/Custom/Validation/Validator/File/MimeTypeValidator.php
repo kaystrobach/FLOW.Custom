@@ -27,7 +27,7 @@ class MimeTypeValidator extends AbstractValidator {
 	);
 
 	/**
-	 * @Flow\Inject
+	 * @Flow\Inject()
 	 * @var \KayStrobach\Custom\Utility\MediaTypeUtility
 	 */
 	protected $mediaTypeUtility;
