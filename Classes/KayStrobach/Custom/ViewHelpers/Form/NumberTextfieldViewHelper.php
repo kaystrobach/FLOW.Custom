@@ -73,13 +73,13 @@ class NumberTextfieldViewHelper extends TextfieldViewHelper
     {
         $value = parent::getValueAttribute($ignoreSubmittedFormData);
         if (is_numeric($value)) {
-            $value = number_format(
+            return number_format(
                 (float)$value,
                 $this->arguments['decimals'],
                 $this->arguments['decimalSeparator'],
                 $this->arguments['thousandsSeparator']
             );
         }
-        return $value;
+        return parent::getValueAttribute(true);
     }
 }
