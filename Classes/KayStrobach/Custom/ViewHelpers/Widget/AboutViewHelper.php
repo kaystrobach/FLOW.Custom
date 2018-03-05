@@ -9,9 +9,19 @@
 namespace KayStrobach\Custom\ViewHelpers\Widget;
 
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-class AboutViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper {
-	/**
+class AboutViewHelper extends AbstractViewHelper {
+    /**
+     * Specifies whether the escaping interceptors should be disabled or enabled for the render-result of this ViewHelper
+     * @see isOutputEscapingEnabled()
+     *
+     * @var boolean
+     * @api
+     */
+    protected $escapeOutput = false;
+
+    /**
 	 * @return string
 	 */
 	public function render() {
