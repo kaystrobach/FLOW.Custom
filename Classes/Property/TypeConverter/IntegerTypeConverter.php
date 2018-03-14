@@ -18,7 +18,6 @@ class IntegerTypeConverter extends AbstractTypeConverter
      */
     protected $sourceTypes = ['array'];
 
-
     /**
      * @var string
      */
@@ -65,8 +64,17 @@ class IntegerTypeConverter extends AbstractTypeConverter
     }
 
     protected function convert($value, $thousandsSeparator, $decimalSeparator) {
-        $value = str_replace($thousandsSeparator , "", $value);
-        $value = str_replace($decimalSeparator , ".", $value);
-        return intval($value);
+        $value = str_replace(
+            [
+                $thousandsSeparator,
+                $decimalSeparator
+            ],
+            [
+                '',
+                '.'
+            ],
+            $value
+        );
+        return (int)$value;
     }
 }

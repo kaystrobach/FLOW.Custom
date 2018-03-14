@@ -32,14 +32,14 @@ class DateTimeConverter extends AbstractTypeConverter
     /**
      * If conversion is possible.
      *
-     * @param string $source
+     * @param array|string $source
      * @param string $targetType
      * @return boolean
      */
     public function canConvertFrom($source, $targetType)
     {
         if (is_array($source)) {
-            if ((isset($source['dateMask'])) && ($source['dateMask'] !== '') && (isset($source['date']))) {
+            if (isset($source['dateMask']) && ($source['dateMask'] !== '') && isset($source['date'])) {
                 if ($source['dateMask'] === $source['date']) {
                     return true;
                 }
@@ -60,7 +60,6 @@ class DateTimeConverter extends AbstractTypeConverter
      */
     public function convertFrom($source, $targetType, array $convertedChildProperties = [], PropertyMappingConfigurationInterface $configuration = null)
     {
-
         return null;
     }
 }

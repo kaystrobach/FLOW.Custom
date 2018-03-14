@@ -12,7 +12,7 @@ namespace KayStrobach\Custom\Utility;
 class DateStringToMaskUtility
 {
 
-    protected $map = array(
+    protected $map = [
         'd' => '99',
         'D' => 'www',
         'm' => '99',
@@ -26,7 +26,7 @@ class DateStringToMaskUtility
         'H' => '99',
         'i' => '99',
         's' => '99'
-    );
+    ];
 
     /**
      * @param string $string
@@ -43,8 +43,14 @@ class DateStringToMaskUtility
     public function convertToUnderscores($string)
     {
         $string = $this->convert($string);
-        $string = str_replace('9', '_', $string);
-        $string = str_replace('w', '_', $string);
+        $string = str_replace(
+            [
+                '9',
+                'w'
+            ],
+            '_',
+            $string
+        );
         return $string;
     }
 }

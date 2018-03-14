@@ -32,17 +32,18 @@ class MimeTypeValidator extends AbstractValidator {
 	 */
 	protected $mediaTypeUtility;
 
-	/**
-	 * Check if $value is valid. If it is not valid, needs to add an error
-	 * to Result.
-	 *
-	 * @param mixed $value
-	 * @return void
-	 * @throws \Neos\Flow\Validation\Exception\InvalidValidationOptionsException if invalid validation options have been specified in the constructor
-	 */
+    /**
+     * Check if $value is valid. If it is not valid, needs to add an error
+     * to Result.
+     *
+     * @param mixed $value
+     * @return void
+     * @throws \Neos\Flow\Validation\Exception\InvalidValidationOptionsException if invalid validation options have been specified in the constructor
+     * @throws \Neos\Flow\ResourceManagement\Exception
+     */
 	protected function isValid($value) {
 
-		if(!($value instanceof Resource)) {
+		if(!($value instanceof PersistentResource)) {
 			$this->addError('Given value is no Flow Resource', 1433344498);
 		}
 

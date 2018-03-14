@@ -74,7 +74,7 @@ class LogentriesBackend extends AbstractBackend {
 		$severityLabel = (isset($this->severityLabels[$severity])) ? $this->severityLabels[$severity] : 'UNKNOWN';
 		$now = new Now();
 		$output = array(
-			'eventTime' => $now->format(\DateTime::ISO8601),
+			'eventTime' => $now->format(\DateTime::ATOM),
 			'from' => gethostname(),
 			'severity' => trim($severityLabel),
 			'packageKey' => $packageKey,
@@ -83,7 +83,7 @@ class LogentriesBackend extends AbstractBackend {
 			'methodName' => $methodName
 		);
 
-		fputs($this->resource, $this->key . ' ' . json_encode($output) . PHP_EOL);
+		fwrite($this->resource, $this->key . ' ' . json_encode($output) . PHP_EOL);
 	}
 
 	/**

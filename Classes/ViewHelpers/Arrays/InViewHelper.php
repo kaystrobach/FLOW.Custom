@@ -21,8 +21,7 @@ class InViewHelper extends AbstractConditionViewHelper {
 	public function render($needle, $haystack, $strict = FALSE) {
 		if(is_array($haystack) && in_array($needle, $haystack, $strict)) {
 			return $this->renderThenChild();
-		} else {
-			return $this->renderElseChild();
 		}
+        return $this->renderElseChild();
 	}
 }

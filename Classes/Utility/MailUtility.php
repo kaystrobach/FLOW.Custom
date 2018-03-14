@@ -26,14 +26,14 @@ class MailUtility
      * @var \Neos\FluidAdaptor\View\StandaloneView
      * @api
      */
-    protected $view = null;
+    protected $view;
 
     /**
      * @Flow\Inject
      * @var \Neos\SwiftMailer\TransportFactory
      * @api
      */
-    protected $mailerTransportFactory = null;
+    protected $mailerTransportFactory;
 
     /**
      * @Flow\Inject
@@ -45,7 +45,7 @@ class MailUtility
      * @Flow\InjectConfiguration(package="KayStrobach.Custom", path="MailUtility")
      * @var array
      */
-    protected $settings = array();
+    protected $settings = [];
 
     /**
      * @Flow\Inject
@@ -76,7 +76,8 @@ class MailUtility
      *
      * @param string $recipientMail
      * @param string $templateFilePath Pfad zum Fluid Template
-     * @param array $values    array mit Schlüssel => Objekt / Wert Zuordungen
+     * @param array $values array mit Schlüssel => Objekt / Wert Zuordungen
+     * @throws \Neos\FluidAdaptor\View\Exception\InvalidSectionException
      */
     public function send($recipientMail, $templateFilePath, $values = array(), $replyTo = null)
     {

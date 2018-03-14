@@ -7,6 +7,7 @@ use Neos\Error\Messages\Message;
 use Neos\Error\Messages\Result;
 use Neos\Flow\I18n\Translator;
 use Neos\Flow\Mvc\ActionRequest;
+use Neos\Flow\Mvc\RequestInterface;
 use Neos\Flow\Mvc\View\JsonView;
 use Neos\Flow\Mvc\View\ViewInterface;
 use Neos\Flow\Annotations as Flow;
@@ -58,7 +59,7 @@ class JsendView extends JsonView implements ViewInterface
     /**
      * Shortcut for retrieving the request from the controller context
      *
-     * @return ActionRequest
+     * @return RequestInterface
      */
     protected function getRequest()
     {
@@ -101,6 +102,10 @@ class JsendView extends JsonView implements ViewInterface
         );
     }
 
+    /**
+     * @param array $messages
+     * @return array
+     */
     protected function convertMessagesToArray($messages) {
         $messagesToReturn = array();
         /** @var Message $message */

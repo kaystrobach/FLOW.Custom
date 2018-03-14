@@ -35,11 +35,11 @@ class SizeValidator extends AbstractValidator {
 	 * @throws \Neos\Flow\Validation\Exception\InvalidValidationOptionsException if invalid validation options have been specified in the constructor
 	 */
 	protected function isValid($value) {
-		if(!($value instanceof Resource)) {
+		if(!($value instanceof PersistentResource)) {
 			$this->addError('Given value is no Flow Resource', 1433344498);
 		}
 
-		$size = @filesize($value->getUri());
+		$size = $value->getFileSize();
 
 		$minimum = $this->options['minimum'];
 		$maximum = $this->options['maximum'];

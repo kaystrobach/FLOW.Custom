@@ -18,7 +18,6 @@ class FloatTypeConverter extends AbstractTypeConverter
      */
     protected $sourceTypes = ['array'];
 
-
     /**
      * @var string
      */
@@ -65,8 +64,17 @@ class FloatTypeConverter extends AbstractTypeConverter
     }
 
     protected function convert($value, $thousandsSeparator, $decimalSeparator) {
-        $value = str_replace($thousandsSeparator , "", $value);
-        $value = str_replace($decimalSeparator , ".", $value);
-        return floatval($value);
+        $value = str_replace(
+            [
+                $thousandsSeparator,
+                $decimalSeparator
+            ],
+            [
+                '',
+                '.'
+            ],
+            $value
+        );
+        return (float)$value;
     }
 }

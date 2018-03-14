@@ -13,11 +13,25 @@ namespace KayStrobach\Custom\ViewHelpers\Uri;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\ResourceManagement\PersistentResource;
+use Neos\FluidAdaptor\Core\ViewHelper\Exception\InvalidVariableException;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
  * A extended resource view helper with cache busting
  */
 class ResourceViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Uri\ResourceViewHelper {
+
+    /**
+     * Initialize and register all arguments.
+     *
+     * @return void
+     * @throws \Neos\FluidAdaptor\Core\ViewHelper\Exception
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('addVersion', 'bool', 'Whether resource should get a version string appended.', false, true);
+    }
 
 	/**
 	 * Renders a URI to the resource and adds a version parameter to the URI if $addVersion is set
@@ -30,23 +44,38 @@ class ResourceViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Uri\ResourceView
 	 * @throws \Neos\FluidAdaptor\Core\ViewHelper\Exception\InvalidVariableException
 	 * @return string The absolute URI to the resource
 	 */
-	public function render($path = NULL, $package = NULL, PersistentResource $resource = NULL, $localize = TRUE, $addVersion = TRUE) {
-		$uri = parent::render($path, $package, $resource, $localize);
-		if ($addVersion === TRUE && $resource === NULL) {
-			if ($package === NULL) {
-				$package = $this->controllerContext->getRequest()->getControllerPackageKey();
-			}
-			$resourceUri = 'resource://' . $package . '/Public/' . $path;
-			try {
-				$resourceStats = stat($resourceUri);
-			} catch (\Exception $e) {
-				$resourceStats = FALSE;
-			}
-			if ($resourceStats !== FALSE) {
-				$mtime = $resourceStats['mtime'];
-				$uri = $uri . '?' . $mtime;
-			}
-		}
-		return $uri;
+	public function render()
+    {
+        return self::renderStatic($this->arguments, $this->buildRenderChildrenClosure(), $this->renderingContext);
 	}
+
+	/**
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     * @return string
+     * @throws InvalidVariableException
+     */
+    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
+    {
+        $uri = parent::renderStatic($arguments, $renderChildrenClosure, $renderingContext);
+        if (($arguments['addVersion'] === true) && ($arguments['resource'] === null)) {
+            $package = $arguments['package'];
+            if ($package === NULL) {
+                $controllerContext = $renderingContext->getControllerContext();
+                $package = $controllerContext->getRequest()->getControllerPackageKey();
+            }
+            $resourceUri = 'resource://' . $package . '/Public/' . $arguments['path'];
+            try {
+                $resourceStats = stat($resourceUri);
+            } catch (\Exception $e) {
+                $resourceStats = FALSE;
+            }
+            if ($resourceStats !== FALSE) {
+                $mtime = $resourceStats['mtime'];
+                $uri = $uri . '?' . $mtime;
+            }
+        }
+        return $uri;
+    }
 }
