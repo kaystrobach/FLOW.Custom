@@ -31,7 +31,7 @@ class SurfContextViewHelper extends \Neos\FluidAdaptor\Core\ViewHelper\AbstractC
      * @return boolean
      * @api
      */
-    protected static function evaluateCondition($arguments = null, RenderingContextInterface $renderingContext)
+    protected static function evaluateCondition($arguments, RenderingContextInterface $renderingContext)
     {
         $objectManager = Bootstrap::$staticObjectManager;
         $environment = $objectManager->get(Environment::class);
