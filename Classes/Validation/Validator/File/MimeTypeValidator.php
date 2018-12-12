@@ -26,20 +26,12 @@ class MimeTypeValidator extends AbstractValidator {
 		'allowedMimeTypes' => array(array('image/png', 'image/tiff', 'image/jpeg'), 'contains the allowed mimetypes', 'array'),
 	);
 
-	/**
-	 * @Flow\Inject
-	 * @var \KayStrobach\Custom\Utility\MediaTypeUtility
-	 */
-	protected $mediaTypeUtility;
-
     /**
      * Check if $value is valid. If it is not valid, needs to add an error
      * to Result.
      *
      * @param mixed $value
      * @return void
-     * @throws \Neos\Flow\Validation\Exception\InvalidValidationOptionsException if invalid validation options have been specified in the constructor
-     * @throws \Neos\Flow\ResourceManagement\Exception
      */
 	protected function isValid($value) {
 
@@ -47,9 +39,9 @@ class MimeTypeValidator extends AbstractValidator {
 			$this->addError('Given value is no Flow Resource', 1433344498);
 		}
 
-		$fileMimeType = $this->mediaTypeUtility->getMediaTypeFromResource($value);
+		$fileMimeType = $value->getMediaType();
 
-		if(!in_array($fileMimeType, $this->options['allowedMimeTypes'])) {
+		if(!\in_array($fileMimeType, $this->options['allowedMimeTypes'], true)) {
 			$this->addError(
 				'The given asset was not of type %1$s but is of type %2$s',
 				1433343575,
