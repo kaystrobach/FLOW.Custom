@@ -48,7 +48,7 @@ class MailCommandController extends \Neos\Flow\Cli\CommandController
         $renderedMailContentHtml = 'SOME HTML';
         $renderedMailContentText = 'SOME TEXT';
         
-        $mail = new \TYPO3\SwiftMailer\Message();
+        $mail = new \Neos\SwiftMailer\Message();
         $mail
             ->setFrom($this->settings['from'])
             ->setReplyTo($replyTo ? $replyTo : $this->settings['reply-to'])
