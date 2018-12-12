@@ -77,6 +77,7 @@ class MailUtility
      * @param string|array $recipientMail
      * @param string $templateFilePath Pfad zum Fluid Template
      * @param array $values array mit Schlüssel => Objekt / Wert Zuordungen
+     * @param string $replyTo
      * @throws \Neos\FluidAdaptor\View\Exception\InvalidSectionException
      */
     public function send($recipientMail, $templateFilePath, $values = array(), $replyTo = null)
@@ -85,9 +86,9 @@ class MailUtility
         $this->view->setTemplatePathAndFilename($templateFilePath);
         $this->view->assignMultiple($values);
 
-        $renderedMailSubject     = trim($this->view->renderSection('subject', null, true));
-        $renderedMailContentText = trim($this->view->renderSection('text', null, true));
-        $renderedMailContentHtml = trim($this->view->renderSection('html', null, true));
+        $renderedMailSubject     = trim($this->view->renderSection('subject', [], true));
+        $renderedMailContentText = trim($this->view->renderSection('text', [], true));
+        $renderedMailContentHtml = trim($this->view->renderSection('html', [], true));
 
         $mail = new \Neos\SwiftMailer\Message();
         $mail
@@ -102,6 +103,7 @@ class MailUtility
         if ($renderedMailContentText !== '') {
             $mail->addPart($renderedMailContentText, 'text/plain', 'utf-8');
         }
+
         $this->logger->log(
             'Send Message with MailUtility',
             LOG_DEBUG,
