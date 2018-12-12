@@ -36,31 +36,28 @@ class MailCommandController extends \Neos\Flow\Cli\CommandController
      * It is important to document the parameters with param tags, because that information will also appear in the help
      * screen.
      *
-     * @param string $requiredArgument This argument is required
-     * @param string $optionalArgument This argument is optional
+     * @param string $recipientMail
+     * @param string $templateFile
      * @return void
+     * @throws \Neos\FluidAdaptor\View\Exception\InvalidSectionException
      */
-    public function sendCommand($recipientMail, $replyTo = NULL)
-    {
+    public function sendCommand(
+        $recipientMail,
+        $templateFile = 'resource://KayStrobach.Custom/Private/Templates/Mail/Default.html'
+    ) {
         print_r($this->settings);
 
         $renderedMailSubject = 'SOME SUBJECT';
         $renderedMailContentHtml = 'SOME HTML';
         $renderedMailContentText = 'SOME TEXT';
-        
-        $mail = new \Neos\SwiftMailer\Message();
-        $mail
-            ->setFrom($this->settings['from'])
-            ->setReplyTo($replyTo ? $replyTo : $this->settings['reply-to'])
-            ->setTo($recipientMail)
-            ->setSubject($renderedMailSubject)
-            ->setPriority(1);
-        if ($renderedMailContentHtml !== '') {
-            $mail->addPart($renderedMailContentHtml, 'text/html', 'utf-8');
-        }
-        if ($renderedMailContentText !== '') {
-            $mail->addPart($renderedMailContentText, 'text/plain', 'utf-8');
-        }
-        $mail->send();
+
+        $mailUtility = new MailUtility();
+        $mailUtility->send(
+            $recipientMail,
+            $templateFile,
+            [
+                'values' => []
+            ]
+        );
     }
 }
