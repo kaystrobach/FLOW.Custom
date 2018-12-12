@@ -45,11 +45,8 @@ class MailCommandController extends \Neos\Flow\Cli\CommandController
         $recipientMail,
         $templateFile = 'resource://KayStrobach.Custom/Private/Templates/Mail/Default.html'
     ) {
-        print_r($this->settings);
 
-        $renderedMailSubject = 'SOME SUBJECT';
-        $renderedMailContentHtml = 'SOME HTML';
-        $renderedMailContentText = 'SOME TEXT';
+        $this->output->output('Sending Mail to ' . $recipientMail);
 
         $mailUtility = new MailUtility();
         $mailUtility->send(
@@ -59,5 +56,7 @@ class MailCommandController extends \Neos\Flow\Cli\CommandController
                 'values' => []
             ]
         );
+
+        $this->output->outputLine(' <success>[DONE]</success>');
     }
 }
