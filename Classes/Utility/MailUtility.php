@@ -74,7 +74,7 @@ class MailUtility
      *     html mail
      * </f:section>
      *
-     * @param string $recipientMail
+     * @param string|array $recipientMail
      * @param string $templateFilePath Pfad zum Fluid Template
      * @param array $values array mit Schlüssel => Objekt / Wert Zuordungen
      * @throws \Neos\FluidAdaptor\View\Exception\InvalidSectionException
