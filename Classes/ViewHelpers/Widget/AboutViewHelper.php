@@ -1,16 +1,20 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: kay
- * Date: 18.11.14
- * Time: 09:55
- */
 
 namespace KayStrobach\Custom\ViewHelpers\Widget;
 
 use Neos\Flow\Annotations as Flow;
 
 class AboutViewHelper extends \Neos\FluidAdaptor\Core\ViewHelper\AbstractViewHelper {
+
+    /**
+     * Specifies whether the escaping interceptors should be disabled or enabled for the render-result of this ViewHelper
+     * @see isOutputEscapingEnabled()
+     *
+     * @var boolean
+     * @api
+     */
+    protected $escapeOutput = false;
+
 	/**
 	 * @return string
 	 */
