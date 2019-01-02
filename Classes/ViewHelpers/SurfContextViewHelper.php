@@ -13,6 +13,14 @@ class SurfContextViewHelper extends \Neos\FluidAdaptor\Core\ViewHelper\AbstractC
         $this->registerArgument('context', 'string', 'Context.', false);
     }
 
+    public function render()
+    {
+        if (self::evaluateCondition($this->arguments, $this->renderingContext)) {
+            return $this->renderThenChild();
+        }
+        return $this->renderElseChild();
+    }
+
     /**
      * Static method which can be overridden by subclasses. If a subclass
      * requires a different (or faster) decision then this method is the one
