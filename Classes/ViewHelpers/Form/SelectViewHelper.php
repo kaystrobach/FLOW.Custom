@@ -12,12 +12,14 @@ class SelectViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Form\SelectViewHel
      * Initialize arguments.
      *
      * @return void
+     * @throws \Neos\FluidAdaptor\Core\ViewHelper\Exception
      * @api
      */
     public function initializeArguments()
     {
         parent::initializeArguments();
         $this->registerArgument('nothingSelectedLabel', 'string', 'If specified an optionTag with value=NULL is prepended to the list.', false, null);
+        $this->registerArgument('required', 'bool', 'decide wether required is set in field', false, false);
     }
 
     /**
@@ -30,6 +32,9 @@ class SelectViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Form\SelectViewHel
     {
         if ($this->arguments['nothingSelectedLabel'] !== null) {
             $this->arguments['prependOptionLabel'] = $this->arguments['nothingSelectedLabel'];
+        }
+        if ($this->arguments['required']) {
+            $this->tag->addAttribute('required', 'required');
         }
         return parent::renderOptionTags($options);
     }
