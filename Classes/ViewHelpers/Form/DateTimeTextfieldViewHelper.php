@@ -33,6 +33,7 @@ class DateTimeTextfieldViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Form\Ab
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();
+		$this->registerArgument('maskOnly', 'bool', '', false, false);
 		$this->registerTagAttribute('disabled', 'string', 'Specifies that the input element should be disabled when the page loads');
 		$this->registerTagAttribute('maxlength', 'int', 'The maxlength attribute of the input field (will not be validated)');
 		$this->registerTagAttribute('readonly', 'string', 'The readonly attribute of the input field');
@@ -74,9 +75,11 @@ class DateTimeTextfieldViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Form\Ab
 			$this->tag->addAttribute('required', 'required');
 		}
 
-		$this->tag->addAttribute('data-field-render', 'datepicker');
-		$this->tag->addAttribute('data-format', $this->arguments['dateFormat']);
-		$this->tag->addAttribute('data-date-format', $this->arguments['dateFormat']);
+		if (!$this->arguments['maskOnly']) {
+            $this->tag->addAttribute('data-field-render', 'datepicker');
+            $this->tag->addAttribute('data-format', $this->arguments['dateFormat']);
+            $this->tag->addAttribute('data-date-format', $this->arguments['dateFormat']);
+        }
 
 		$this->tag->addAttribute('data-mask', $this->dateStringUtility->convert($this->arguments['dateFormat']));
 
