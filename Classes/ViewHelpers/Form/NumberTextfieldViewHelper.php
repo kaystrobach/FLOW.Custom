@@ -26,7 +26,7 @@ class NumberTextfieldViewHelper extends TextfieldViewHelper
         $this->registerArgument('thousandsSeparator', 'string', '', false, ',');
     }
 
-    public function render($required = false, $type = 'text')
+    public function render()
     {
         if ($this->arguments['thousandsSeparator'] === $this->arguments['decimalSeparator']) {
             $this->arguments['thousandsSeparator'] = '';
@@ -36,7 +36,7 @@ class NumberTextfieldViewHelper extends TextfieldViewHelper
         $this->registerFieldNameForFormTokenGeneration($name);
 
         $this->tag->addAttribute('name', $name . '[value]');
-        $this->tag->addAttribute('type', $type);
+        $this->tag->addAttribute('type', $this->arguments['type']);
 
         $value = $this->getValueAttribute();
         if ($value !== null) {
@@ -47,15 +47,15 @@ class NumberTextfieldViewHelper extends TextfieldViewHelper
             }
         }
 
-        if ($required === true) {
+        if ($this->arguments['required'] === true) {
             $this->tag->addAttribute('required', 'required');
         }
         $this->addAdditionalIdentityPropertiesIfNeeded();
         $this->setErrorClassAttribute();
 
         $buffer = $this->tag->render();
-        $buffer .= '<input type="hidden" value="' . htmlspecialchars($this->arguments['decimalSeparator']) . '" name="' . $this->getName() . '[decimalSeparator]" />';
-        $buffer .= '<input type="hidden" value="' . htmlspecialchars($this->arguments['thousandsSeparator']) . '" name="' . $this->getName() . '[thousandsSeparator]" />';
+        $buffer .= '<input type="hidden" value="' . htmlspecialchars($this->arguments['decimalSeparator'], ENT_QUOTES | ENT_HTML5) . '" name="' . $this->getName() . '[decimalSeparator]" />';
+        $buffer .= '<input type="hidden" value="' . htmlspecialchars($this->arguments['thousandsSeparator'], ENT_QUOTES | ENT_HTML5) . '" name="' . $this->getName() . '[thousandsSeparator]" />';
         return $buffer;
     }
 
