@@ -33,12 +33,15 @@ class PurifyHtmlViewHelper extends AbstractViewHelper
     public function render($value = NULL) {
         \HTMLPurifier_Bootstrap::registerAutoload();
         $config = \HTMLPurifier_Config::createDefault();
+        $config->set('HTML.Nofollow', true);
+        $config->set('HTML.TargetBlank', true);
+        $config->set('HTML.Allowed', 'a[href],b,strong,i,em,u');
         $config->set(
             'URI.AllowedSchemes',
             [
-                'data' => true,
-                'http:' => true,
-                'https:' => true,
+                'http' => true,
+                'https' => true,
+                'mailto' => true,
                 'tel' => true,
             ]
         );
