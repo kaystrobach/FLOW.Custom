@@ -35,7 +35,7 @@ class PurifyHtmlViewHelper extends AbstractViewHelper
         $config = \HTMLPurifier_Config::createDefault();
         $config->set('HTML.Nofollow', true);
         $config->set('HTML.TargetBlank', true);
-        $config->set('HTML.Allowed', 'a[href],b,strong,i,em,u');
+        $config->set('HTML.Allowed', 'a[href],b,strong,i,em,u,p,ul,li');
         $config->set(
             'URI.AllowedSchemes',
             [
