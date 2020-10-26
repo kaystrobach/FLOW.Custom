@@ -9,6 +9,7 @@ namespace KayStrobach\Custom\Utility;
 
 use Neos\Flow\Annotations as Flow;
 use Doctrine\ORM\Mapping as ORM;
+use Neos\Flow\ResourceManagement\PersistentResource;
 use Neos\Flow\ResourceManagement\ResourceManager;
 
 /**
@@ -78,9 +79,10 @@ class MailUtility
      * @param string $templateFilePath Pfad zum Fluid Template
      * @param array $values array mit Schlüssel => Objekt / Wert Zuordungen
      * @param string $replyTo
+     * @param array $attachments
      * @throws \Neos\FluidAdaptor\View\Exception\InvalidSectionException
      */
-    public function send($recipientMail, $templateFilePath, $values = array(), $replyTo = null)
+    public function send($recipientMail, $templateFilePath, $values = array(), $replyTo = null, array $attachments = [])
     {
         /** @var $mail \Neos\SwiftMailer\Message() */
         $this->view->setTemplatePathAndFilename($templateFilePath);
@@ -102,6 +104,17 @@ class MailUtility
         }
         if ($renderedMailContentText !== '') {
             $mail->addPart($renderedMailContentText, 'text/plain', 'utf-8');
+        }
+        foreach ($attachments as $attachment) {
+            if ($attachment instanceof PersistentResource) {
+                $mail->attach(
+                    new \Swift_Attachment(
+                        stream_get_contents($attachment->getStream()),
+                        $attachment->getFilename(),
+                        $attachment->getMediaType()
+                    )
+                );
+            }
         }
 
         $this->logger->log(
