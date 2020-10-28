@@ -19,6 +19,9 @@ class SelectViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Form\SelectViewHel
     {
         parent::initializeArguments();
         $this->registerArgument('nothingSelectedLabel', 'string', 'If specified an optionTag with value=NULL is prepended to the list.', false, null);
+        if (!array_key_exists('required', $this->argumentDefinitions)) {
+            $this->registerArgument('required', 'boolean', '', false, false);
+        }
     }
 
     /**
