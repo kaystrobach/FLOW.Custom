@@ -4,11 +4,17 @@ namespace KayStrobach\Custom\ViewHelpers\Form;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\I18n\Formatter\NumberFormatter;
+use Neos\FluidAdaptor\ViewHelpers\Form\AbstractFormFieldViewHelper;
 use Neos\FluidAdaptor\ViewHelpers\Form\TextfieldViewHelper;
 
 
-class NumberTextfieldViewHelper extends TextfieldViewHelper
+class NumberTextfieldViewHelper extends AbstractFormFieldViewHelper
 {
+    /**
+     * @var string
+     */
+    protected $tagName = 'input';
+
     /**
      * @Flow\Inject
      * @var NumberFormatter
@@ -21,9 +27,24 @@ class NumberTextfieldViewHelper extends TextfieldViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
+
+        $this->registerArgument('required', 'boolean', '', false, false);
+        $this->registerArgument('type', 'string', '', false, 'text');
+
+        $this->registerArgument('errorClass', 'string', 'CSS class to set if there are errors for this view helper', false, 'f3-form-error');
         $this->registerArgument('decimals', 'int', '', false, 2);
         $this->registerArgument('decimalSeparator', 'string', '', false, '.');
         $this->registerArgument('thousandsSeparator', 'string', '', false, ',');
+
+        $this->registerTagAttribute('disabled', 'string', 'Specifies that the input element should be disabled when the page loads');
+        $this->registerTagAttribute('maxlength', 'int', 'The maxlength attribute of the input field (will not be validated)');
+        $this->registerTagAttribute('readonly', 'string', 'The readonly attribute of the input field');
+        $this->registerTagAttribute('size', 'int', 'The size of the input field');
+        $this->registerTagAttribute('placeholder', 'string', 'The placeholder of the input field');
+        $this->registerTagAttribute('autofocus', 'string', 'Specifies that a input field should automatically get focus when the page loads');
+
+
+        $this->registerUniversalTagAttributes();
     }
 
     public function render()
