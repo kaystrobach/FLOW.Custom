@@ -98,7 +98,9 @@ class DateTimeTextfieldViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Form\Ab
 
     protected function renderHiddenFields()
     {
-        return '<input type="hidden" value="' . htmlspecialchars($this->arguments['dateFormat']) . '" name="' . $this->getName() . '[dateFormat]" />'
-            . '<input type="hidden" value="' . htmlspecialchars($this->dateStringUtility->convertToUnderscores($this->arguments['dateFormat'])) . '" name="' . $this->getName() . '[dateMask]" />';
+        return '<input type="hidden" value="' . htmlspecialchars($this->arguments['dateFormat'],
+                ENT_QUOTES | ENT_HTML5) . '" name="' . $this->getName() . '[dateFormat]" />'
+            . '<input type="hidden" value="' . htmlspecialchars($this->dateStringUtility->convertToUnderscores($this->arguments['dateFormat']),
+                ENT_QUOTES | ENT_HTML5) . '" name="' . $this->getName() . '[dateMask]" />';
     }
 }
