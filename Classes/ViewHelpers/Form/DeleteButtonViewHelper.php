@@ -1,5 +1,5 @@
 <?php
-namespace KayStrobach\EventManager\ViewHelpers\Form;
+namespace KayStrobach\Custom\ViewHelpers\Form;
 
 /*
  * This file is part of the KayStrobach.EventManager package.
