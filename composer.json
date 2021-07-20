@@ -1,6 +1,6 @@
 {
     "name": "kaystrobach/custom",
-    "type": "neos-flow-package",
+    "type": "neos-package",
     "description": null,
     "license": "MIT",
     "require": {
