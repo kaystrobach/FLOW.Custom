@@ -1,11 +1,10 @@
 {
     "name": "kaystrobach/custom",
-    "type": "typo3-flow-package",
+    "type": "neos-flow-package",
     "description": null,
-    "version": null,
     "license": "MIT",
     "require": {
-        "neos/flow": "~4.0 || ~5.0 || ~6.0",
+        "neos/flow": "~5.0 || ~6.0",
         "ezyang/htmlpurifier": "^4.7",
         "neos/swiftmailer": "^6.0 || ^7.0"
     },

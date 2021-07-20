@@ -55,8 +55,7 @@ class MailUtility
     protected $resourceManager;
 
     /**
-     * @Flow\Inject
-     * @var \Neos\Flow\Log\SystemLoggerInterface
+     * @var LoggerInterface
      */
     protected $logger;
 
@@ -117,9 +116,8 @@ class MailUtility
             }
         }
 
-        $this->logger->log(
+        $this->logger->debug(
             'Send Message with MailUtility',
-            LOG_DEBUG,
             [
                 'from' => $this->settings['from'],
                 'recipient' => $recipientMail,

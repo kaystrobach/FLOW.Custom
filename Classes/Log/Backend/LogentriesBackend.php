@@ -39,7 +39,8 @@ class LogentriesBackend extends AbstractBackend {
 	 * @return void
 	 * @api
 	 */
-	public function open() {
+	public function open(): void
+    {
 		$this->severityLabels = array(
 			LOG_EMERG   => 'Emergeny',
 			LOG_ALERT   => 'Alert',
@@ -54,19 +55,20 @@ class LogentriesBackend extends AbstractBackend {
 		$this->resource = fsockopen(self::LE_TLS_ADDRESS, self::LE_TLS_PORT, $this->errno, $this->errstr, 2);
 	}
 
-	/**
-	 * Appends the given message along with the additional information into the log.
-	 *
-	 * @param string $message The message to log
-	 * @param integer $severity One of the LOG_* constants
-	 * @param mixed $additionalData A variable containing more information about the event to be logged
-	 * @param string $packageKey Key of the package triggering the log (determined automatically if not specified)
-	 * @param string $className Name of the class triggering the log (determined automatically if not specified)
-	 * @param string $methodName Name of the method triggering the log (determined automatically if not specified)
-	 * @return void
-	 * @api
-	 */
-	public function append($message, $severity = LOG_INFO, $additionalData = NULL, $packageKey = NULL, $className = NULL, $methodName = NULL) {
+    /**
+     * Appends the given message along with the additional information into the log.
+     *
+     * @param string $message The message to log
+     * @param integer $severity One of the LOG_* constants
+     * @param mixed $additionalData A variable containing more information about the event to be logged
+     * @param string|null $packageKey Key of the package triggering the log (determined automatically if not specified)
+     * @param string|null $className Name of the class triggering the log (determined automatically if not specified)
+     * @param string|null $methodName Name of the method triggering the log (determined automatically if not specified)
+     * @return void
+     * @api
+     */
+	public function append(string $message, int $severity = LOG_INFO, $additionalData = null, string $packageKey = null, string $className = null, string $methodName = null): void
+    {
 		if ($severity > $this->severityThreshold || empty($this->key)) {
 			return;
 		}
@@ -74,7 +76,7 @@ class LogentriesBackend extends AbstractBackend {
 		$severityLabel = (isset($this->severityLabels[$severity])) ? $this->severityLabels[$severity] : 'UNKNOWN';
 		$now = new Now();
 		$output = array(
-			'eventTime' => $now->format(\DateTime::ATOM),
+			'eventTime' => $now->format('Y-m-d\TH:i:sP'),
 			'from' => gethostname(),
 			'severity' => trim($severityLabel),
 			'packageKey' => $packageKey,
@@ -93,7 +95,8 @@ class LogentriesBackend extends AbstractBackend {
 	 * @return void
 	 * @api
 	 */
-	public function close() {
+	public function close():void
+    {
 		if (is_resource($this->resource)){
 			fclose($this->resource);
 			$this->resource = null;
@@ -104,7 +107,8 @@ class LogentriesBackend extends AbstractBackend {
 	 * @param string $key
 	 * @return LogentriesBackend
 	 */
-	public function setKey($key) {
+	public function setKey($key): LogentriesBackend
+    {
 		$this->key = trim($key);
 		return $this;
 	}
