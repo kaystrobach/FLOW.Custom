@@ -41,20 +41,22 @@ class DateTimeTextfieldViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Form\Ab
         $this->registerTagAttribute('placeholder', 'string', 'Placeholder for the field');
         $this->registerArgument('errorClass', 'string', 'CSS class to set if there are errors for this view helper', FALSE, 'f3-form-error');
         $this->registerArgument('dateFormat', 'string', 'DateTime object attribute', FALSE, 'Y-m-d\TH:i:sP');
+
+        $this->registerArgument('required', 'boolean', 'required?', false, null);
+        $this->registerArgument('type', 'string', 'type', false, 'text');
+        $this->registerArgument('locale', 'object', 'locale', false, null);
+
         $this->registerUniversalTagAttributes();
     }
 
     /**
-     * @param boolean $required
-     * @param string $type
-     * @param string $locale
      * @return string
      */
-    public function render($required = NULL, $type = 'text', $locale = NULL) {
+    public function render() {
         $name = $this->getName();
         $this->registerFieldNameForFormTokenGeneration($name);
 
-        $this->tag->addAttribute('type', $type);
+        $this->tag->addAttribute('type', $this->arguments['type']);
         $this->tag->addAttribute('name', $name . '[date]');
 
         /** @var \DateTime|mixed $value */
@@ -67,11 +69,11 @@ class DateTimeTextfieldViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Form\Ab
             $valueString = $value['date'];
         }
 
-        if ($value !== NULL) {
+        if ($value !== null) {
             $this->tag->addAttribute('value', $valueString);
         }
 
-        if ($required !== NULL) {
+        if ($this->arguments['required'] !== null) {
             $this->tag->addAttribute('required', 'required');
         }
 
@@ -83,12 +85,11 @@ class DateTimeTextfieldViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Form\Ab
 
         $this->tag->addAttribute('data-mask', $this->dateStringUtility->convert($this->arguments['dateFormat']));
 
-        if($locale === NULL) {
+        $locale = $this->arguments['locale'];
+        if($locale === null) {
             $locale = $this->localizationService->getConfiguration()->getCurrentLocale();
-            $this->tag->addAttribute('data-date-locale', $locale->getLanguage());
-        } else {
-            $this->tag->addAttribute('data-date-locale', $locale);
         }
+        $this->tag->addAttribute('data-date-locale', $locale);
 
 
         $this->setErrorClassAttribute();
