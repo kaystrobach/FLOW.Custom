@@ -11,6 +11,7 @@ use Neos\Flow\Annotations as Flow;
 use Doctrine\ORM\Mapping as ORM;
 use Neos\Flow\ResourceManagement\PersistentResource;
 use Neos\Flow\ResourceManagement\ResourceManager;
+use Psr\Log\LoggerInterface;
 
 /**
  * Objekt zum erzeugen von Studenten!
@@ -55,6 +56,7 @@ class MailUtility
     protected $resourceManager;
 
     /**
+     * @FLow\Inject
      * @var LoggerInterface
      */
     protected $logger;
