@@ -7,3 +7,23 @@ KayStrobach\Custom\Utility\GrabUtility:
         arguments:
           1:
             value: KayStrobach_Custom_GrabberCache
+
+KayStrobach\Custom\ViewHelpers\Form\SelectDynamicViewHelper:
+  properties:
+    cache:
+      object:
+        factoryObjectName: Neos\Flow\Cache\CacheManager
+        factoryMethodName: getCache
+        arguments:
+          1:
+            value: KayStrobach_Custom_SelectDynamicCache
+
+KayStrobach\Custom\Controller\SelectDynamicController:
+  properties:
+    cache:
+      object:
+        factoryObjectName: Neos\Flow\Cache\CacheManager
+        factoryMethodName: getCache
+        arguments:
+          1:
+            value: KayStrobach_Custom_SelectDynamicCache
