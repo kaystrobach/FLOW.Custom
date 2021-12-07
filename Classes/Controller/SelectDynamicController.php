@@ -27,7 +27,7 @@ class SelectDynamicController extends ActionController
     public function getAlternativesAction(string $identifier, string $labelAttribute, string $q = '')
     {
         $query = $this->cache->get($identifier);
-        if (strlen($q) < 3) {
+        if (strlen($q) < 1) {
             $this->view->assign('error', 'please provide atleast 3 chars');
             $this->view->assign('success', false);
             return;
@@ -54,8 +54,6 @@ class SelectDynamicController extends ActionController
         $query->setLimit(100);
         $result = $query->execute();
         $query->setOrderings([]);
-
-        $this->view->assign('error', $query->getSql());
 
         $this->view->assign('result', $result);
     }

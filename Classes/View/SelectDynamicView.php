@@ -6,6 +6,7 @@ use Neos\Flow\Mvc\View\JsonView;
 use Neos\Flow\Mvc\View\ViewInterface;
 use Neos\Flow\Persistence\PersistenceManagerInterface;
 use Neos\Flow\Annotations as Flow;
+use Neos\Utility\ObjectAccess;
 
 class SelectDynamicView extends JsonView implements ViewInterface
 {
@@ -30,12 +31,26 @@ class SelectDynamicView extends JsonView implements ViewInterface
         foreach ($result as $item)
         {
             $identifier = $this->persistenceManager->getIdentifierByObject($item);
-            // if ($item instanceof )
+            $labelValue = null;
+            try {
+                $key = $this->controllerContext->getArguments()->getArgument('labelAttribute')->getValue() ?? null;
+                $labelValue = ObjectAccess::getPropertyPath($item, $key);
+            } catch (\Exception $e) {
+                // do nothing, default is already set
+            }
+            if ($labelValue !== null) {
+                $resultArray['results'][] = [
+                    'id' => $identifier,
+                    'text' => $labelValue,
+                ];
+                continue;
+            }
             if (method_exists($item, '__toString')) {
                 $resultArray['results'][] = [
                     'id' => $identifier,
                     'text' => (string)$item,
                 ];
+                continue;
             }
         }
         return $resultArray;
