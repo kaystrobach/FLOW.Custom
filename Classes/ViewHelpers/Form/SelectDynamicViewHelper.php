@@ -2,7 +2,7 @@
 
 namespace KayStrobach\Custom\ViewHelpers\Form;
 use KayStrobach\Custom\Traits\SelectPrePopulateTrait;
-use Neos\Cache\Frontend\StringFrontend;
+use Neos\Cache\Frontend\VariableFrontend;
 use Neos\Flow\Persistence\Doctrine\QueryResult;
 use Neos\FluidAdaptor\Core\ViewHelper;
 use Psr\Log\LoggerInterface;
@@ -20,7 +20,7 @@ class SelectDynamicViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Form\Select
     protected $logger;
 
     /**
-     * @var StringFrontend
+     * @var VariableFrontend
      * @Flow\Inject
      */
     protected $cache;
@@ -70,15 +70,20 @@ class SelectDynamicViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Form\Select
             return parent::getOptions();
         }
         if ($this->arguments['options'] instanceof QueryResult) {
-            $query = $this->arguments['options']->getQuery()->getQueryBuilder()->setCacheable(false);
-            $query->orWhere(
-                $query->expr()->eq(
-                    $query->getRootAliases()[0]. '.Persistence_Object_Identifier',
-                    $query->expr()->literal($this->getValueAttribute())
-                 )
-             );
+            $query = $this->arguments['options'];
 
-            $cacheKey = sha1($query->getQuery()->getSql());
+            $identifier = $this->getPropertyValue() ? $this->persistenceManager->getIdentifierByObject($this->getPropertyValue()) : null;
+
+            $cacheKey = sha1(
+                json_encode(
+                    [
+                        'query' => $query->getQuery()->getSql(),
+                        'valueAttribute' => (string)$identifier,
+                        'optionLabelField' => $this->arguments['optionLabelField']
+                    ],
+                    JSON_THROW_ON_ERROR
+                )
+            );
             $ajaxUri = $this->controllerContext->getUriBuilder()->uriFor(
                 'getAlternatives',
                 [
@@ -88,10 +93,15 @@ class SelectDynamicViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Form\Select
                 'SelectDynamic',
                 'KayStrobach.Custom'
             );
+
             $this->tag->addAttribute('data-ajax--url', $ajaxUri);
             $this->cache->set(
                 $cacheKey,
-                $query->getQuery()->execute()
+                [
+                    'query' => $query->getQuery(),
+                    'valueAttribute' => $identifier,
+                    'optionLabelField' => $this->arguments['optionLabelField']
+                ]
             );
 
             $this->arguments['options'] = [];

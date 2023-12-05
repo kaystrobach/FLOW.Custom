@@ -4,7 +4,7 @@
     "description": null,
     "license": "MIT",
     "require": {
-        "neos/flow": "~8.0",
+        "neos/flow": "~6.0 || ~7.0 || ~8.0",
         "ezyang/htmlpurifier": "^4.7",
         "neos/swiftmailer": "^6.0 || ^7.0 || ^8.0"
     },
