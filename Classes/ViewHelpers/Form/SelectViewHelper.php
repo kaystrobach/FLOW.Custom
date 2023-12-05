@@ -2,11 +2,14 @@
 
 namespace KayStrobach\Custom\ViewHelpers\Form;
 
+use KayStrobach\Custom\Traits\SelectPrePopulateTrait;
+use Neos\FluidAdaptor\ViewHelpers\Form\SelectViewHelper as OriginalSelectViewHelper;
+
 /**
  * This view helper generates a <select> dropdown list for the use with a form.
  * But in addition to the one in FLOW it allows to specify an empty value as top element
  */
-class SelectViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Form\SelectViewHelper
+class SelectViewHelper extends OriginalSelectViewHelper
 {
     /**
      * Initialize arguments.
@@ -38,6 +41,15 @@ class SelectViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Form\SelectViewHel
         if ($this->arguments['required']) {
             $this->tag->addAttribute('required', 'required');
         }
+
         return parent::renderOptionTags($options);
+    }
+
+    use SelectPrePopulateTrait;
+
+    protected function getOptions()
+    {
+        $this->prepopulateOptions();
+        return parent::getOptions();
     }
 }

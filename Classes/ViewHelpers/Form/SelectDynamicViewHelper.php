@@ -1,6 +1,7 @@
 <?php
 
 namespace KayStrobach\Custom\ViewHelpers\Form;
+use KayStrobach\Custom\Traits\SelectPrePopulateTrait;
 use Neos\Cache\Frontend\StringFrontend;
 use Neos\Flow\Persistence\Doctrine\QueryResult;
 use Neos\FluidAdaptor\Core\ViewHelper;
@@ -51,6 +52,8 @@ class SelectDynamicViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Form\Select
         return parent::renderOptionTags($options);
     }
 
+    use SelectPrePopulateTrait;
+
     /**
      * Render the option tags.
      *
@@ -63,10 +66,19 @@ class SelectDynamicViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Form\Select
             return [];
         }
         if (is_array($this->arguments['options'])) {
+            $this->prepopulateOptions();
             return parent::getOptions();
         }
         if ($this->arguments['options'] instanceof QueryResult) {
-            $cacheKey = sha1($this->arguments['options']->getQuery()->getSql());
+            $query = $this->arguments['options']->getQuery()->getQueryBuilder()->setCacheable(false);
+            $query->orWhere(
+                $query->expr()->eq(
+                    $query->getRootAliases()[0]. '.Persistence_Object_Identifier',
+                    $query->expr()->literal($this->getValueAttribute())
+                 )
+             );
+
+            $cacheKey = sha1($query->getQuery()->getSql());
             $ajaxUri = $this->controllerContext->getUriBuilder()->uriFor(
                 'getAlternatives',
                 [
@@ -79,18 +91,11 @@ class SelectDynamicViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Form\Select
             $this->tag->addAttribute('data-ajax--url', $ajaxUri);
             $this->cache->set(
                 $cacheKey,
-                $this->arguments['options']->getQuery()
+                $query->getQuery()->execute()
             );
 
-            $query = $this->arguments['options']->getQuery()->getQueryBuilder()->setCacheable(true);
-            $query->andWhere(
-                $query->expr()->eq(
-                    $query->getRootAliases()[0]. '.Persistence_Object_Identifier',
-                    $query->expr()->literal($this->getValueAttribute()
-                    )
-                )
-            );
-            $this->arguments['options'] = $query->getQuery()->execute();
+            $this->arguments['options'] = [];
+            $this->prepopulateOptions();
         }
 
         return parent::getOptions();
