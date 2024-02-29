@@ -24,11 +24,11 @@ class SelectDynamicController extends ActionController
      */
     protected $defaultViewObjectName = SelectDynamicView::class;
 
-    public function getAlternativesAction(string $identifier, string $q = '')
+    public function getAlternativesAction(string $identifier, string $q = '', string $labelAttribute = null)
     {
         $cache = $this->cache->get($identifier);
         $query = $cache['query'];
-        $labelAttribute = $cache['optionLabelField'] ?? '';
+        $labelAttribute = $cache['optionLabelField'] ?? $labelAttribute ?? null;
         $valueAttribute = $cache['valueAttribute'] ?? null;
 
         $this->view->assign(

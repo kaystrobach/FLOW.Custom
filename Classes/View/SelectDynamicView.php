@@ -28,16 +28,22 @@ class SelectDynamicView extends JsonView implements ViewInterface
             ]
         ];
 
+        $key = null;
+        if ($this->controllerContext->getArguments()->hasArgument('labelAttribute')) {
+            $key = $this->controllerContext->getArguments()->getArgument('labelAttribute')->getValue() ?? null;
+        }
+
         foreach ($result as $item)
         {
             $identifier = $this->persistenceManager->getIdentifierByObject($item);
             $labelValue = null;
+
             try {
-                $key = $this->controllerContext->getArguments()->getArgument('labelAttribute')->getValue() ?? null;
                 $labelValue = ObjectAccess::getPropertyPath($item, $key);
             } catch (\Exception $e) {
-                // do nothing, default is already set
+
             }
+
             if ($labelValue !== null) {
                 $resultArray['results'][] = [
                     'id' => $identifier,
@@ -53,6 +59,7 @@ class SelectDynamicView extends JsonView implements ViewInterface
                 continue;
             }
         }
+
         return $resultArray;
     }
 }
