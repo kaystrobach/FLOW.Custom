@@ -63,7 +63,7 @@ class DateTimeTextfieldViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Form\Ab
         $value = $this->getValueAttribute(FALSE);
         $valueString = '';
 
-        if ($value instanceof \DateTime) {
+        if ($value instanceof \DateTimeInterface) {
             $valueString = $value->format($this->arguments['dateFormat']);
         } elseif(is_array($value) && array_key_exists('date', $value)) {
             $valueString = $value['date'];
