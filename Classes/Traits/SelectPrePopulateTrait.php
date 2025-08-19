@@ -19,9 +19,13 @@ trait SelectPrePopulateTrait
             }
             return parent::getOptions();
         }
-        if (!in_array($values, (array)$this->arguments['options'], true)) {
-            $this->arguments['options'][] = $values;
+
+        if (is_array($this->arguments['options'])) {
+            if (!array_key_exists($values, $this->arguments['options'])) {
+                $this->arguments['options'][] = $values;
+            }
         }
+
 
         return parent::getOptions();
     }
