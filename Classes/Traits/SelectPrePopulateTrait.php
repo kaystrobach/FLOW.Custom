@@ -21,7 +21,7 @@ trait SelectPrePopulateTrait
         }
 
         if (is_array($this->arguments['options'])) {
-            if (!array_key_exists($values, $this->arguments['options'])) {
+            if (!empty($key) && !array_key_exists($values, $this->arguments['options'])) {
                 $this->arguments['options'][] = $values;
             }
         }
