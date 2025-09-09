@@ -58,7 +58,7 @@ class DateTimeConverter extends AbstractTypeConverter
      * @return \DateTime
      * @throws TypeConverterException
      */
-    public function convertFrom($source, $targetType, array $convertedChildProperties = [], PropertyMappingConfigurationInterface $configuration = null)
+    public function convertFrom($source, $targetType, array $convertedChildProperties = [], ?PropertyMappingConfigurationInterface $configuration = null)
     {
         return null;
     }

@@ -67,7 +67,7 @@ class LogentriesBackend extends AbstractBackend {
      * @return void
      * @api
      */
-	public function append(string $message, int $severity = LOG_INFO, $additionalData = null, string $packageKey = null, string $className = null, string $methodName = null): void
+	public function append(string $message, int $severity = LOG_INFO, $additionalData = null, ?string $packageKey = null, ?string $className = null, ?string $methodName = null): void
     {
 		if ($severity > $this->severityThreshold || empty($this->key)) {
 			return;

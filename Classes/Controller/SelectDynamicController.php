@@ -24,7 +24,7 @@ class SelectDynamicController extends ActionController
      */
     protected $defaultViewObjectName = SelectDynamicView::class;
 
-    public function getAlternativesAction(string $identifier, string $q = '', string $labelAttribute = null)
+    public function getAlternativesAction(string $identifier, string $q = '', ?string $labelAttribute = null)
     {
         $cache = $this->cache->get($identifier);
         $query = $cache['query'];

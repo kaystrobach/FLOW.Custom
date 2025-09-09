@@ -38,7 +38,7 @@ class IntegerTypeConverter extends AbstractTypeConverter
      * @return float|\Neos\Error\Messages\Error
      * @api
      */
-    public function convertFrom($source, $targetType, array $convertedChildProperties = [], PropertyMappingConfigurationInterface $configuration = null)
+    public function convertFrom($source, $targetType, array $convertedChildProperties = [], ?PropertyMappingConfigurationInterface $configuration = null)
     {
         if (!is_array($source)) {
             return new Error('"%s" cannot be converted to a float value.', 1332934124, [print_r($source, true)]);
