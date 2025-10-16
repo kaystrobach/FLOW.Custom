@@ -47,9 +47,8 @@ class SelectViewHelper extends OriginalSelectViewHelper
 
     use SelectPrePopulateTrait;
 
-    protected function getOptions()
+    protected function getOptions(): array
     {
-        $this->prepopulateOptions();
-        return parent::getOptions();
+        return $this->prepopulateOptions();
     }
 }

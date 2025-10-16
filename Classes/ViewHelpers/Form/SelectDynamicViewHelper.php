@@ -5,6 +5,7 @@ use KayStrobach\Custom\Traits\SelectPrePopulateTrait;
 use Neos\Cache\Frontend\VariableFrontend;
 use Neos\Flow\Persistence\Doctrine\QueryResult;
 use Neos\FluidAdaptor\Core\ViewHelper;
+use Neos\Utility\ObjectAccess;
 use Psr\Log\LoggerInterface;
 use Neos\Flow\Annotations as Flow;
 
@@ -14,6 +15,8 @@ use Neos\Flow\Annotations as Flow;
  */
 class SelectDynamicViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Form\SelectViewHelper
 {
+    use SelectPrePopulateTrait;
+
     /**
      * @var LoggerInterface
      */
@@ -52,22 +55,19 @@ class SelectDynamicViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Form\Select
         return parent::renderOptionTags($options);
     }
 
-    use SelectPrePopulateTrait;
-
     /**
      * Render the option tags.
      *
      * @return array an associative array of options, key will be the value of the option tag
      * @throws ViewHelper\Exception
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         if (!is_array($this->arguments['options']) && !($this->arguments['options'] instanceof \Traversable)) {
             return [];
         }
         if (is_array($this->arguments['options'])) {
-            $this->prepopulateOptions();
-            return parent::getOptions();
+            return $this->prepopulateOptions();
         }
         if ($this->arguments['options'] instanceof QueryResult) {
             $query = $this->arguments['options'];
@@ -104,8 +104,7 @@ class SelectDynamicViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Form\Select
                 ]
             );
 
-            $this->arguments['options'] = [];
-            $this->prepopulateOptions();
+            return $this->prepopulateOptions();
         }
 
         return parent::getOptions();
