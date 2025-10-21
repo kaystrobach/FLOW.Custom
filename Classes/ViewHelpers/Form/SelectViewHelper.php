@@ -44,12 +44,4 @@ class SelectViewHelper extends OriginalSelectViewHelper
 
         return parent::renderOptionTags($options);
     }
-
-    use SelectPrePopulateTrait;
-
-    protected function getOptions()
-    {
-        $this->prepopulateOptions();
-        return parent::getOptions();
-    }
 }

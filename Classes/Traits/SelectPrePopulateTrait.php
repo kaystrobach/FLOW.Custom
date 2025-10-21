@@ -2,10 +2,13 @@
 
 namespace KayStrobach\Custom\Traits;
 
+use Neos\Utility\ObjectAccess;
+
 trait SelectPrePopulateTrait
 {
     protected function prepopulateOptions()
     {
+        $options = [];
         if (!is_array($this->arguments['options']) && !($this->arguments['options'] instanceof \Traversable)) {
             $this->arguments['options'] = [];
         }
@@ -14,19 +17,36 @@ trait SelectPrePopulateTrait
         if ($this->arguments['multiple']) {
             foreach ($values as $value) {
                 if (!in_array($value, (array)$this->arguments['options'], true)) {
-                    $this->arguments['options'][] = $value;
+                    // check wether we have an object or a scalar
+                    $this->addOption($options, $value);
                 }
             }
-            return parent::getOptions();
+            return $options;
         }
 
-        if (is_array($this->arguments['options'])) {
-            if (!empty($key) && !array_key_exists($values, $this->arguments['options'])) {
-                $this->arguments['options'][] = $values;
-            }
+        $this->addOption($options, $values);
+
+
+        return $options;
+    }
+
+    protected function addOption(array &$options, mixed $value): void
+    {
+        if (is_null($value)) {
+            $this->logger->debug('Add option: skipped because of null value');
+            return;
+        }
+        if (is_object($value)) {
+            $key = $this->persistenceManager->getIdentifierByObject($value);
+            $label = ObjectAccess::getPropertyPath($value, (string)$this->arguments['optionLabelField']);
+        } elseif(is_string($value)) {
+            $key = $value;
+            $label = $value;
         }
 
-
-        return parent::getOptions();
+        if ($key && $label) {
+            $this->logger->debug('Add option: ' . $key . ' => ' . $label);
+            $options[$key] = $label;
+        }
     }
 }

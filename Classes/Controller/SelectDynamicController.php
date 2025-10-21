@@ -51,7 +51,6 @@ class SelectDynamicController extends ActionController
         }
 
         $originalConstraints = $query->getConstraint();
-        $result = $query->execute();
 
         $query->matching(
             $query->logicalAnd(
